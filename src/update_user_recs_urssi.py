@@ -1,12 +1,8 @@
 import os
 from os.path import exists
 import logging
-
-# import django
 import arxiv
 import pandas as pd
-
-# import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 import math
@@ -26,14 +22,6 @@ logging.basicConfig(
     level=logging.ERROR,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
-
-# Set up the Django environment to access django tools since this is a separate python file and would otherwise not have access
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "beta_recommend.settings")
-# django.setup()
-
-# Now we can load the UserProfile
-# from rec_app.models import UserProfile
-
 
 # this is for playing with pytest
 def fun_function(value):
@@ -140,16 +128,16 @@ def select_discipline(biography):
     global user_embedding
     # Research areas and disciplines
     dissim_df = pd.read_csv(
-        "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/discipline_dissimilarity_matrix.csv"
+        "discipline_dissimilarity_matrix.csv"  # ADD THIS FILE TO SRC
     )
-    disciplines = dissim_df["oecd_names"].tolist()
+    disciplines = dissim_df["oecd_names"].tolist()  # ADD OECD NAMES TO SRC
     user_embedding = initiate_embedding([str(biography)])
     discipline_embedding = initiate_embedding(disciplines)
 
     similarities = cosine_similarity(user_embedding, discipline_embedding)
     most_similar_idx = similarities.argmax()  # get the index of the highest similarity
     user_discipline = disciplines[most_similar_idx]
-    print("got discipline - " + user_discipline)
+    print("user discipline - " + user_discipline)
     return user_discipline
 
 
@@ -168,12 +156,8 @@ def get_arxiv_rec(research_interests):
     # Uses double quote bcause it forces arXiv to match the keywords in the title, abstract or comments.  https://arxiv.org/multi?group=physics&%2Ffind=Search
     def get_arxiv():
         global number_days
-        arxiv_tax_df = pd.read_csv(
-            "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/arxiv_taxonomy.csv"
-        )
-        mapping_df = pd.read_csv(
-            "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/schema_mapping_cleaned.csv"
-        )
+        arxiv_tax_df = pd.read_csv("arxiv_taxonomy.csv")  # ADD THIS FILE TO SRC
+        mapping_df = pd.read_csv("schema_mapping_cleaned.csv")  # ADD THIS FILE TO SRC
 
         MAX_RETRIES = 5
         RETRY_DELAY = 5
@@ -183,7 +167,7 @@ def get_arxiv_rec(research_interests):
                 try:
                     search = arxiv.Search(
                         query=keyword,
-                        max_results=10,
+                        max_results=10,  # Make this a variable in user_profile file
                         sort_by=arxiv.SortCriterion.SubmittedDate,
                     )
                     print(f"Processing keyword: {keyword}")
@@ -565,7 +549,6 @@ def update_recommendations():
     get_keywords_llm(user_profile.biography)
 
     user_discipline = select_discipline(user_profile.biography)
-    user_discipline_ai = user_discipline
 
     get_arxiv_rec(
         research_interests
