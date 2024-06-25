@@ -1,9 +1,8 @@
-#!/home/ryanrwatkins/Env/recommend/bin/python
 
 import os
 from os.path import exists
 import logging
-import django
+#import django
 import arxiv
 import pandas as pd
 #import numpy as np
