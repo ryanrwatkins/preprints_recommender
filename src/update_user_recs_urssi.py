@@ -16,7 +16,7 @@ import re
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-from src import pw_file
+from src import user_profile
 from langdetect import detect
 import time
 from retry import retry
@@ -35,6 +35,7 @@ logging.basicConfig(
 # from rec_app.models import UserProfile
 
 
+# this is for playing with pytest
 def fun_function(value):
     x = value + 12
     return x
@@ -559,50 +560,40 @@ def update_recommendations():
     """
 
     current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # Loop through all user profiles and update the recs, this should work while we have few users but we will have to rethink for more users since each user update takes 3+ minutes
-    for profile in UserProfile.objects.all():
-        # get things ready
-        get_keywords_llm(profile.biography)
 
-        user_discipline = select_discipline(profile.biography)
-        profile.user_discipline_ai = user_discipline
-        profile.save()
+    # get things ready
+    get_keywords_llm(user_profile.biography)
 
-        get_arxiv_rec(
-            research_interests
-        )  # we use key words to query arxiv since it gets so submissions per day
-        get_osf_rec()  # osf doesn't have query in api but only gets ~30 to ~40 submissions per day so we get last 24 hours
+    user_discipline = select_discipline(user_profile.biography)
+    user_discipline_ai = user_discipline
 
-        arxiv_llm_recs = llm_ranked_article(profile.biography, arxiv_articles, "arxiv_")
-        profile.arxiv_llm_recs = arxiv_llm_recs
-        profile.save()
+    get_arxiv_rec(
+        research_interests
+    )  # we use key words to query arxiv since it gets so submissions per day
+    get_osf_rec()  # osf doesn't have query in api but only gets ~30 to ~40 submissions per day so we get last 24 hours
 
-        osf_llm_recs = llm_ranked_article(profile.biography, osf_articles, "osf_")
-        profile.osf_llm_recs = osf_llm_recs
-        profile.save()
+    arxiv_llm_recs = llm_ranked_article(
+        user_profile.biography, arxiv_articles, "arxiv_"
+    )
 
-        arxiv_ranked, arxiv_filtered_results = ranked_articles(
-            profile.biography, arxiv_articles, "arxiv_", profile.adjacent_value
-        )
-        profile.arxiv_recs = arxiv_ranked
-        profile.save()
+    osf_llm_recs = llm_ranked_article(user_profile.biography, osf_articles, "osf_")
 
-        osf_ranked, osf_filtered_results = ranked_articles(
-            profile.biography, osf_articles, "osf_", profile.adjacent_value
-        )
-        profile.osf_recs = osf_ranked
-        profile.save()
+    arxiv_ranked, arxiv_filtered_results = ranked_articles(
+        user_profile.biography, arxiv_articles, "arxiv_", user_profile.adjacent_value
+    )
 
-        adj_ranked = adjacent_recs_new(
-            arxiv_filtered_results,
-            osf_filtered_results,
-            profile.biography,
-            profile.adjacent_value,
-        )
-        profile.adj_recs = adj_ranked
+    osf_ranked, osf_filtered_results = ranked_articles(
+        user_profile.biography, osf_articles, "osf_", user_profile.adjacent_value
+    )
 
-        profile.recs_updated_on = f"Updated on {current_datetime}"
-        profile.save()
+    adj_ranked = adjacent_recs_new(
+        arxiv_filtered_results,
+        osf_filtered_results,
+        user_profile.biography,
+        user_profile.adjacent_value,
+    )
+
+    print(f"Updated on {current_datetime}")
 
     # print("Recommendations updated successfully!")
     # os._exit(0)
