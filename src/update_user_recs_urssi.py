@@ -1,12 +1,8 @@
 import os
 from os.path import exists
 import logging
-
-# import django
 import arxiv
 import pandas as pd
-
-# import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 import math
@@ -16,7 +12,10 @@ import re
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-from src import user_profile
+from src import (
+    user_profile,
+    api,
+)  # users must update the user_profile file, and then create a api.py file with their keys
 from langdetect import detect
 import time
 from retry import retry
@@ -27,14 +26,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-# Set up the Django environment to access django tools since this is a separate python file and would otherwise not have access
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "beta_recommend.settings")
-# django.setup()
-
-# Now we can load the UserProfile
-# from rec_app.models import UserProfile
-
-
 # this is for playing with pytest
 def fun_function(value):
     x = value + 12
@@ -44,7 +35,7 @@ def fun_function(value):
 # HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings
 def initiate_embedding(content):
     model_id = "sentence-transformers/all-MiniLM-L6-v2"  # this model only embedds the first 256 words, but that is enough for our purposes and it is a small load which is better
-    hf_token = pw_file.hf_api_key2
+    hf_token = api.hf_api_key2
     content = content
     api_url = (
         f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
@@ -66,9 +57,9 @@ def initiate_embedding(content):
     return embedding
 
 
-# Connecting to BARD - PALM (in future could offer other LLM systems too)
+# Connecting to BARD - PALM (in future could offer other LLM systems too)dd
 def palm_llm(llm_prompt, temp, output_max, safety):
-    palm.configure(api_key=pw_file.palm_api_key)
+    palm.configure(api_key=api.palm_api_key)
     # this gets the latest model for text generation
     models = [
         m
@@ -140,16 +131,16 @@ def select_discipline(biography):
     global user_embedding
     # Research areas and disciplines
     dissim_df = pd.read_csv(
-        "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/discipline_dissimilarity_matrix.csv"
+        "discipline_dissimilarity_matrix.csv"  # ADD THIS FILE TO SRC
     )
-    disciplines = dissim_df["oecd_names"].tolist()
+    disciplines = dissim_df["oecd_names"].tolist()  # ADD OECD NAMES TO SRC
     user_embedding = initiate_embedding([str(biography)])
     discipline_embedding = initiate_embedding(disciplines)
 
     similarities = cosine_similarity(user_embedding, discipline_embedding)
     most_similar_idx = similarities.argmax()  # get the index of the highest similarity
     user_discipline = disciplines[most_similar_idx]
-    print("got discipline - " + user_discipline)
+    print("user discipline - " + user_discipline)
     return user_discipline
 
 
@@ -168,12 +159,8 @@ def get_arxiv_rec(research_interests):
     # Uses double quote bcause it forces arXiv to match the keywords in the title, abstract or comments.  https://arxiv.org/multi?group=physics&%2Ffind=Search
     def get_arxiv():
         global number_days
-        arxiv_tax_df = pd.read_csv(
-            "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/arxiv_taxonomy.csv"
-        )
-        mapping_df = pd.read_csv(
-            "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/schema_mapping_cleaned.csv"
-        )
+        arxiv_tax_df = pd.read_csv("arxiv_taxonomy.csv")  # ADD THIS FILE TO SRC
+        mapping_df = pd.read_csv("schema_mapping_cleaned.csv")  # ADD THIS FILE TO SRC
 
         MAX_RETRIES = 5
         RETRY_DELAY = 5
@@ -183,7 +170,7 @@ def get_arxiv_rec(research_interests):
                 try:
                     search = arxiv.Search(
                         query=keyword,
-                        max_results=10,
+                        max_results=10,  # Make this a variable in user_profile file
                         sort_by=arxiv.SortCriterion.SubmittedDate,
                     )
                     print(f"Processing keyword: {keyword}")
@@ -565,7 +552,6 @@ def update_recommendations():
     get_keywords_llm(user_profile.biography)
 
     user_discipline = select_discipline(user_profile.biography)
-    user_discipline_ai = user_discipline
 
     get_arxiv_rec(
         research_interests
