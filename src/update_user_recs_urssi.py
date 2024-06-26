@@ -15,7 +15,7 @@ import requests
 from src import (
     user_profile,
     api,
-)  # users must update the user_profile file, and then create a api.py file with their keys
+)  # users must update the user_profile file, and then create a api.py file with their keys as defined below
 from langdetect import detect
 import time
 from retry import retry
