@@ -12,7 +12,10 @@ import re
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-from src import user_profile
+from src import (
+    user_profile,
+    api,
+)  # users must update the user_profile file, and then create a api.py file with their keys
 from langdetect import detect
 import time
 from retry import retry
@@ -32,7 +35,7 @@ def fun_function(value):
 # HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings
 def initiate_embedding(content):
     model_id = "sentence-transformers/all-MiniLM-L6-v2"  # this model only embedds the first 256 words, but that is enough for our purposes and it is a small load which is better
-    hf_token = pw_file.hf_api_key2
+    hf_token = api.hf_api_key2
     content = content
     api_url = (
         f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
@@ -54,9 +57,9 @@ def initiate_embedding(content):
     return embedding
 
 
-# Connecting to BARD - PALM (in future could offer other LLM systems too)
+# Connecting to BARD - PALM (in future could offer other LLM systems too)dd
 def palm_llm(llm_prompt, temp, output_max, safety):
-    palm.configure(api_key=pw_file.palm_api_key)
+    palm.configure(api_key=api.palm_api_key)
     # this gets the latest model for text generation
     models = [
         m
