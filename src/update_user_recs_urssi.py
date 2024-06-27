@@ -12,13 +12,17 @@ import re
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-from src import (
+
+""" from src import (
     user_profile,
     api,
-)  # users must update the user_profile file, and then create a api.py file with their keys as defined below
+)  # for testing """
+from user_profile import user_profile
+import api
 from langdetect import detect
 import time
 from retry import retry
+
 
 logging.basicConfig(
     filename="py_error_log.txt",
@@ -26,16 +30,27 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-# this is for playing with pytest
+
+global working_directory
+working_directory = os.getcwd()
+
+""" global directory_path
+directory_path = os.path.dirname(os.path.abspath(__file__)) """
+
+
+global current_datetime
+current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+""" # this is for playing with pytest
 def fun_function(value):
     x = value + 12
-    return x
+    return x """
 
 
 # HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings
 def initiate_embedding(content):
     model_id = "sentence-transformers/all-MiniLM-L6-v2"  # this model only embedds the first 256 words, but that is enough for our purposes and it is a small load which is better
-    hf_token = api.hf_api_key2
+    hf_token = api.hf_api_key
     content = content
     api_url = (
         f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
@@ -54,6 +69,7 @@ def initiate_embedding(content):
             )
 
     embedding = embedding(content)
+    print("got embedding")
     return embedding
 
 
@@ -130,13 +146,16 @@ def select_discipline(biography):
     global disciplines
     global user_embedding
     # Research areas and disciplines
-    dissim_df = pd.read_csv(
-        "discipline_dissimilarity_matrix.csv"  # ADD THIS FILE TO SRC
-    )
-    disciplines = dissim_df["oecd_names"].tolist()  # ADD OECD NAMES TO SRC
+    """ matrix = working_directory + "/src/discipline_dissimilarity_matrix.csv" """
+    matrix = working_directory + "/discipline_dissimilarity_matrix.csv"
+    # matrix = os.path.join(directory_path, "discipline_dissimilarity_matrix.csv")
+    dissim_df = pd.read_csv(matrix)
+    disciplines = dissim_df["oecd_names"].tolist()
+    print("starting to get embeddings")
     user_embedding = initiate_embedding([str(biography)])
+    print("getting user_embedding")
     discipline_embedding = initiate_embedding(disciplines)
-
+    print("getting discipline_embedding")
     similarities = cosine_similarity(user_embedding, discipline_embedding)
     most_similar_idx = similarities.argmax()  # get the index of the highest similarity
     user_discipline = disciplines[most_similar_idx]
@@ -146,7 +165,7 @@ def select_discipline(biography):
 
 # get arxiv articles based on key words (6 per keyword at this point)
 def get_arxiv_rec(research_interests):
-    print("getting arxiv articles")
+
     global arxiv_articles
     arxiv_articles = []
     global number_days
@@ -159,8 +178,15 @@ def get_arxiv_rec(research_interests):
     # Uses double quote bcause it forces arXiv to match the keywords in the title, abstract or comments.  https://arxiv.org/multi?group=physics&%2Ffind=Search
     def get_arxiv():
         global number_days
-        arxiv_tax_df = pd.read_csv("arxiv_taxonomy.csv")  # ADD THIS FILE TO SRC
-        mapping_df = pd.read_csv("schema_mapping_cleaned.csv")  # ADD THIS FILE TO SRC
+        """ taxonomy = working_directory + "/src/arxiv_taxonomy.csv" """
+        taxonomy = working_directory + "/arxiv_taxonomy.csv"
+
+        arxiv_tax_df = pd.read_csv(taxonomy)
+
+        """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
+        schema = working_directory + "/schema_mapping_cleaned.csv"
+
+        mapping_df = pd.read_csv(schema)
 
         MAX_RETRIES = 5
         RETRY_DELAY = 5
@@ -238,9 +264,9 @@ def get_osf_rec():
     today = date.today()
     yesterday = str(today - timedelta(days=1))
 
-    mapping_df = pd.read_csv(
-        "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/schema_mapping_cleaned.csv"
-    )
+    """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
+    schema = working_directory + "/schema_mapping_cleaned.csv"
+    mapping_df = pd.read_csv(schema)
 
     # get all preprints from yesterday
     osf_api = (
@@ -381,6 +407,7 @@ def llm_ranked_article(biography, articles, source):
     temp = 0
     output_max = 500
     safety = 4
+    print("down to palm")
     llm_recs_urls = palm_llm(llm_recs_prompt, temp, output_max, safety)
 
     url_pattern = re.compile(
@@ -394,9 +421,9 @@ def llm_ranked_article(biography, articles, source):
     # add dissim_score to llm results
     llm_results_with_score = []
     for llm_result in llm_results:
-        dissim_df = pd.read_csv(
-            "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/discipline_dissimilarity_matrix.csv"
-        )
+        """matrix = working_directory + "/src/discipline_dissimilarity_matrix.csv" """
+        matrix = working_directory + "/discipline_dissimilarity_matrix.csv"
+        dissim_df = pd.read_csv(matrix)
         user_oecd = user_discipline
         article_oecd = llm_result[
             0
@@ -418,8 +445,8 @@ def llm_ranked_article(biography, articles, source):
     return llm_results
 
 
-# This is for creating ranked by sentence-transformers
 def ranked_articles(biography, articles, source, adjacent_value):
+    """For creating ranked recs by sentence-transformers on hugging face"""
     global results
     global arxiv_filtered_results
     global osf_filetered_results
@@ -433,9 +460,9 @@ def ranked_articles(biography, articles, source, adjacent_value):
         # return the just the cosine_score as an element in a list -- e.g  [.34343]
         score_list = cosine_scores.tolist()[0]
         # get the dissimilarity covariance for the article (i.e., distance from users home discipline)
-        dissim_df = pd.read_csv(
-            "/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/discipline_dissimilarity_matrix.csv"
-        )
+        """ matrix = working_directory + "/src/discipline_dissimilarity_matrix.csv"  """
+        matrix = working_directory + "/discipline_dissimilarity_matrix.csv"
+        dissim_df = pd.read_csv(matrix)
         user_oecd = user_discipline
         article_oecd = article[
             0
@@ -495,7 +522,7 @@ def ranked_articles(biography, articles, source, adjacent_value):
 
 
 """
-def adjacent_recs(arxiv_filtered_results, osf_filtered_results, biography, adjacent_value):
+def adjacent_recs_old(arxiv_filtered_results, osf_filtered_results, biography, adjacent_value):
     global merged_results
     print("getting adj recs")
     merged_results = arxiv_filtered_results + osf_filtered_results  # two lists
@@ -508,7 +535,7 @@ def adjacent_recs(arxiv_filtered_results, osf_filtered_results, biography, adjac
     return merged_results
 """
 # create adjacent recommendations and filter by user selected distance
-def adjacent_recs_new(
+def adjacent_recs(
     arxiv_filtered_results, osf_filtered_results, biography, adjacent_value
 ):
     global merged_results
@@ -537,31 +564,41 @@ def adjacent_recs_new(
     return filtered_results
 
 
+def save_recommendations_to_json(recommendations, directory="src/outputs"):
+    """file_path = working_directory + f"/src/outputs/recommendations_{current_datetime}.json" """
+    file_path = working_directory + f"/outputs/recommendations_{current_datetime}.json"
+    with open(file_path, "w") as json_file:
+        json.dump(recommendations, json_file, indent=4)
+    print(f"Recommendations saved to {file_path}")
+
+
+def research_interests():
+    """takes profile and identifies keywords that will be used in arxiv search"""
+    research_interests_keywords = get_keywords_llm(user_profile.biography)
+    user_profile.keywords = research_interests_keywords
+    user_profile.save()
+
+
+def update_discipline():
+    """Take the user bio and then determines what OECD discipine they fall withing"""
+    user_discipline = select_discipline(user_profile.biography)
+    user_profile.discipline = user_discipline
+    user_profile.save()
+
+
 # command function for running the other functions in the right order and saving results for each user
 def update_recommendations():
-    """
-    # this is for making changes to the DB for specific users if we have to
-    if profile.user.pk == 2:    # pk gets use id
-        profile.adjacent_value = 2   # then you select which value to change for the user
-        profile.save()
-    """
+    """Creates the five different types of recommendations and saves to json"""
+    research_interests()
+    update_discipline()
+    get_arxiv_rec(research_interests)
+    get_osf_rec()
 
-    current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # get things ready
-    get_keywords_llm(user_profile.biography)
-
-    user_discipline = select_discipline(user_profile.biography)
-
-    get_arxiv_rec(
-        research_interests
-    )  # we use key words to query arxiv since it gets so submissions per day
-    get_osf_rec()  # osf doesn't have query in api but only gets ~30 to ~40 submissions per day so we get last 24 hours
-
+    print("getting arxiv_llm_recs")
     arxiv_llm_recs = llm_ranked_article(
         user_profile.biography, arxiv_articles, "arxiv_"
     )
-
+    print("getting osf_llm_recs")
     osf_llm_recs = llm_ranked_article(user_profile.biography, osf_articles, "osf_")
 
     arxiv_ranked, arxiv_filtered_results = ranked_articles(
@@ -572,14 +609,22 @@ def update_recommendations():
         user_profile.biography, osf_articles, "osf_", user_profile.adjacent_value
     )
 
-    adj_ranked = adjacent_recs_new(
+    adj_ranked = adjacent_recs(
         arxiv_filtered_results,
         osf_filtered_results,
         user_profile.biography,
         user_profile.adjacent_value,
     )
 
-    print(f"Updated on {current_datetime}")
+    recommendations = {
+        "arxiv_llm_recs": arxiv_llm_recs,
+        "osf_llm_recs": osf_llm_recs,
+        "arxiv_ranked": arxiv_ranked,
+        "osf_ranked": osf_ranked,
+        "adj_ranked": adj_ranked,
+    }
+
+    save_recommendations_to_json(recommendations)
 
     # print("Recommendations updated successfully!")
     # os._exit(0)
