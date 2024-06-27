@@ -12,11 +12,6 @@ import re
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-
-""" from src import (
-    user_profile,
-    api,
-)  # for testing """
 from user_profile import user_profile
 import api
 from langdetect import detect
@@ -30,22 +25,11 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-
-global working_directory
-working_directory = os.getcwd()
-
-""" global directory_path
-directory_path = os.path.dirname(os.path.abspath(__file__)) """
-
+global directory_path
+directory_path = os.path.dirname(os.path.abspath(__file__))
 
 global current_datetime
 current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-""" # this is for playing with pytest
-def fun_function(value):
-    x = value + 12
-    return x """
-
 
 # HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings
 def initiate_embedding(content):
@@ -147,8 +131,10 @@ def select_discipline(biography):
     global user_embedding
     # Research areas and disciplines
     """ matrix = working_directory + "/src/discipline_dissimilarity_matrix.csv" """
-    matrix = working_directory + "/discipline_dissimilarity_matrix.csv"
-    # matrix = os.path.join(directory_path, "discipline_dissimilarity_matrix.csv")
+    """ matrix = working_directory + "/discipline_dissimilarity_matrix.csv" """
+    matrix = os.path.join(
+        directory_path, "resources/discipline_dissimilarity_matrix.csv"
+    )
     dissim_df = pd.read_csv(matrix)
     disciplines = dissim_df["oecd_names"].tolist()
     print("starting to get embeddings")
@@ -179,12 +165,14 @@ def get_arxiv_rec(research_interests):
     def get_arxiv():
         global number_days
         """ taxonomy = working_directory + "/src/arxiv_taxonomy.csv" """
-        taxonomy = working_directory + "/arxiv_taxonomy.csv"
+        """ taxonomy = working_directory + "/arxiv_taxonomy.csv" """
+        taxonomy = os.path.join(directory_path, "resources/arxiv_taxonomy.csv")
 
         arxiv_tax_df = pd.read_csv(taxonomy)
 
         """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
-        schema = working_directory + "/schema_mapping_cleaned.csv"
+        """ schema = working_directory + "/schema_mapping_cleaned.csv" """
+        schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
 
         mapping_df = pd.read_csv(schema)
 
@@ -265,7 +253,8 @@ def get_osf_rec():
     yesterday = str(today - timedelta(days=1))
 
     """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
-    schema = working_directory + "/schema_mapping_cleaned.csv"
+    """ schema = working_directory + "/schema_mapping_cleaned.csv" """
+    schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
     mapping_df = pd.read_csv(schema)
 
     # get all preprints from yesterday
@@ -422,7 +411,10 @@ def llm_ranked_article(biography, articles, source):
     llm_results_with_score = []
     for llm_result in llm_results:
         """matrix = working_directory + "/src/discipline_dissimilarity_matrix.csv" """
-        matrix = working_directory + "/discipline_dissimilarity_matrix.csv"
+        """ matrix = working_directory + "/discipline_dissimilarity_matrix.csv" """
+        matrix = os.path.join(
+            directory_path, "resources/discipline_dissimilarity_matrix.csv"
+        )
         dissim_df = pd.read_csv(matrix)
         user_oecd = user_discipline
         article_oecd = llm_result[
@@ -461,7 +453,10 @@ def ranked_articles(biography, articles, source, adjacent_value):
         score_list = cosine_scores.tolist()[0]
         # get the dissimilarity covariance for the article (i.e., distance from users home discipline)
         """ matrix = working_directory + "/src/discipline_dissimilarity_matrix.csv"  """
-        matrix = working_directory + "/discipline_dissimilarity_matrix.csv"
+        """ matrix = working_directory + "/discipline_dissimilarity_matrix.csv" """
+        matrix = os.path.join(
+            directory_path, "resources/discipline_dissimilarity_matrix.csv"
+        )
         dissim_df = pd.read_csv(matrix)
         user_oecd = user_discipline
         article_oecd = article[
@@ -566,7 +561,10 @@ def adjacent_recs(
 
 def save_recommendations_to_json(recommendations, directory="src/outputs"):
     """file_path = working_directory + f"/src/outputs/recommendations_{current_datetime}.json" """
-    file_path = working_directory + f"/outputs/recommendations_{current_datetime}.json"
+    """ file_path = working_directory + f"/outputs/recommendations_{current_datetime}.json" """
+    file_path = os.path.join(
+        directory_path, f"/outputs/recommendations_{current_datetime}.json"
+    )
     with open(file_path, "w") as json_file:
         json.dump(recommendations, json_file, indent=4)
     print(f"Recommendations saved to {file_path}")
@@ -580,6 +578,7 @@ def research_interests():
 
 
 def update_discipline():
+
     """Take the user bio and then determines what OECD discipine they fall withing"""
     user_discipline = select_discipline(user_profile.biography)
     user_profile.discipline = user_discipline

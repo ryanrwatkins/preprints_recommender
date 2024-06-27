@@ -1,6 +1,7 @@
 # testing local version, should test installed package when done too
 import pytest
-from src import update_user_recs_urssi as update_user
+import os
+from src.preprint_scout import recommender_main as update_user
 
 """ def test_fun_function():
     assert update_user.fun_function(3) == 13 """

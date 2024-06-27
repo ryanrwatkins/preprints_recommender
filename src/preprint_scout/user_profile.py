@@ -4,8 +4,10 @@ discipline = "" """
 
 import os
 
-""" user_profile_path = os.path.join(os.getcwd(), 'src/user_profile.txt') """  # for testing
-user_profile_path = os.path.join(os.getcwd(), "user_profile.txt")
+""" user_profile_path = os.path.join(os.getcwd(), 'src/user_profile.txt')  """  # for testing
+""" user_profile_path = os.path.join(os.getcwd(), "user_profile.txt") """
+directory_path = os.path.dirname(os.path.abspath(__file__))
+user_profile_path = os.path.join(directory_path, "user_profile.txt")
 
 
 class UserProfile:
