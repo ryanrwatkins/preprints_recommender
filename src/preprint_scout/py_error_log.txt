@@ -497,3 +497,23 @@ Traceback (most recent call last):
     handle = open(
              ^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: '/var/www/html/beta.weshareresearch.com/public_html/beta_recommend/discipline_dissimilarity_matrix.csv'
+2024-06-27 14:38:10,913 - ERROR - Error occurred: module 'user_profile' has no attribute 'biography'
+Traceback (most recent call last):
+  File "/Users/rwatkins_1/Python projects/PreprintScout/src/preprint_scout/recommender_main.py", line 635, in <module>
+    update_recommendations()
+  File "/Users/rwatkins_1/Python projects/PreprintScout/src/preprint_scout/recommender_main.py", line 592, in update_recommendations
+    research_interests()
+  File "/Users/rwatkins_1/Python projects/PreprintScout/src/preprint_scout/recommender_main.py", line 576, in research_interests
+    research_interests_keywords = get_keywords_llm(user_profile.biography)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'user_profile' has no attribute 'biography'
+2024-06-27 15:07:48,418 - ERROR - Error occurred: [Errno 2] No such file or directory: '/outputs/recommendations_2024-06-27 15:04:47.json'
+Traceback (most recent call last):
+  File "/Users/rwatkins_1/Python projects/PreprintScout/src/preprint_scout/recommender_main.py", line 639, in <module>
+    update_recommendations()
+  File "/Users/rwatkins_1/Python projects/PreprintScout/src/preprint_scout/recommender_main.py", line 631, in update_recommendations
+    save_recommendations_to_json(recommendations)
+  File "/Users/rwatkins_1/Python projects/PreprintScout/src/preprint_scout/recommender_main.py", line 573, in save_recommendations_to_json
+    with open(file_path, "w") as json_file:
+         ^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/outputs/recommendations_2024-06-27 15:04:47.json'

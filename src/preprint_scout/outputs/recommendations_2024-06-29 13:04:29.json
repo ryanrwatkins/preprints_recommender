@@ -1,0 +1,402 @@
+{
+    "arxiv_llm_recs": [
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19356v1",
+                "DiVERT: Distractor Generation with Variational Errors Represented as Text for Math Multiple-choice Questions",
+                "High-quality distractors are crucial to both the assessment and pedagogical\nvalue of multiple-choice questions (MCQs), where manually crafting ones that\nanticipate knowledge deficiencies or misconceptions among real students is\ndifficult. Meanwhile, automated distractor generation, even with the help of\nlarge language models (LLMs), remains challenging for subjects like math. It is\ncrucial to not only identify plausible distractors but also understand the\nerror behind them. In this paper, we introduce DiVERT (Distractor Generation\nwith Variational Errors Represented as Text), a novel variational approach that\nlearns an interpretable representation of errors behind distractors in math\nMCQs. Through experiments on a real-world math MCQ dataset with 1,434 questions\nused by hundreds of thousands of students, we show that DiVERT, despite using a\nbase open-source LLM with 7B parameters, outperforms state-of-the-art\napproaches using GPT-4o on downstream distractor generation. We also conduct a\nhuman evaluation with math educators and find that DiVERT leads to error labels\nthat are of comparable quality to human-authored ones.",
+                "This article presents a novel approach to generate distractors for multiple-choice questions in math. It uses a variational approach to learn an interpretable representation of errors behind distractors. This approach outperforms state-of-the-art methods and leads to error labels of comparable quality to human-authored ones.",
+                "This article introduces DiVERT, a novel approach to generate distractors for math MCQs. It outperforms state-of-the-art approaches and leads to error labels of comparable quality to human-authored ones. This is important for educational researchers who look at AI and technology as it can help improve the assessment and pedagogical value of MCQs."
+            ],
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19226v1",
+                "Simulating Classroom Education with LLM-Empowered Agents",
+                "Large language models (LLMs) have been employed in various intelligent\neducational tasks to assist teaching. While preliminary explorations have\nfocused on independent LLM-empowered agents for specific educational tasks, the\npotential for LLMs within a multi-agent collaborative framework to simulate a\nclassroom with real user participation remains unexplored. In this work, we\npropose SimClass, a multi-agent classroom simulation framework involving user\nparticipation. We recognize representative class roles and introduce a novel\nclass control mechanism for automatic classroom teaching, and conduct user\nexperiments in two real-world courses. Utilizing the Flanders Interactive\nAnalysis System and Community of Inquiry theoretical frame works from\neducational analysis, we demonstrate that LLMs can simulate traditional\nclassroom interaction patterns effectively while enhancing user's experience.\nWe also observe emergent group behaviors among agents in SimClass, where agents\ncollaborate to create enlivening interactions in classrooms to improve user\nlearning process. We hope this work pioneers the application of LLM-empowered\nmulti-agent systems in virtual classroom teaching.",
+                "This article proposes a multi-agent classroom simulation framework that uses large language models to simulate traditional classroom interaction patterns and enhance user experience. It provides empirical evidence that LLM-empowered multi-agent systems can be used in virtual classroom teaching.",
+                "This article proposes a multi-agent classroom simulation framework that uses large language models to simulate traditional classroom interaction patterns and enhance user experience. It provides empirical evidence that LLM-empowered multi-agent systems can be used for virtual classroom teaching."
+            ],
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19217v1",
+                "Think Step by Step: Chain-of-Gesture Prompting for Error Detection in Robotic Surgical Videos",
+                "Despite significant advancements in robotic systems and surgical data\nscience, ensuring safe and optimal execution in robot-assisted minimally\ninvasive surgery (RMIS) remains a complex challenge. Current surgical error\ndetection methods involve two parts: identifying surgical gestures and then\ndetecting errors within each gesture clip. These methods seldom consider the\nrich contextual and semantic information inherent in surgical videos, limiting\ntheir performance due to reliance on accurate gesture identification. Motivated\nby the chain-of-thought prompting in natural language processing, this letter\npresents a novel and real-time end-to-end error detection framework,\nChain-of-Thought (COG) prompting, leveraging contextual information from\nsurgical videos. This encompasses two reasoning modules designed to mimic the\ndecision-making processes of expert surgeons. Concretely, we first design a\nGestural-Visual Reasoning module, which utilizes transformer and attention\narchitectures for gesture prompting, while the second, a Multi-Scale Temporal\nReasoning module, employs a multi-stage temporal convolutional network with\nboth slow and fast paths for temporal information extraction. We extensively\nvalidate our method on the public benchmark RMIS dataset JIGSAWS. Our method\nencapsulates the reasoning processes inherent to surgical activities enabling\nit to outperform the state-of-the-art by 4.6% in F1 score, 4.6% in Accuracy,\nand 5.9% in Jaccard index while processing each frame in 6.69 milliseconds on\naverage, demonstrating the great potential of our approach in enhancing the\nsafety and efficacy of RMIS procedures and surgical education. The code will be\navailable.",
+                "This article presents a novel AI method for surgical error detection that leverages contextual information from surgical videos. It has the potential to enhance the safety and efficacy of RMIS procedures and surgical education.",
+                "This article presents a novel AI method for surgical error detection that leverages contextual information from surgical videos. It has the potential to enhance the safety and efficacy of RMIS procedures and surgical education."
+            ],
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19393v1",
+                "Looking 3D: Anomaly Detection with 2D-3D Alignment",
+                "Automatic anomaly detection based on visual cues holds practical significance\nin various domains, such as manufacturing and product quality assessment. This\npaper introduces a new conditional anomaly detection problem, which involves\nidentifying anomalies in a query image by comparing it to a reference shape. To\naddress this challenge, we have created a large dataset, BrokenChairs-180K,\nconsisting of around 180K images, with diverse anomalies, geometries, and\ntextures paired with 8,143 reference 3D shapes. To tackle this task, we have\nproposed a novel transformer-based approach that explicitly learns the\ncorrespondence between the query image and reference 3D shape via feature\nalignment and leverages a customized attention mechanism for anomaly detection.\nOur approach has been rigorously evaluated through comprehensive experiments,\nserving as a benchmark for future research in this domain.",
+                "Educational researchers who study AI and technology will want to read this article because it introduces a new method for detecting anomalies in images by comparing them to a reference shape. This method could be used to improve the quality of educational materials by identifying and removing errors."
+            ],
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19389v1",
+                "OMG-LLaVA: Bridging Image-level, Object-level, Pixel-level Reasoning and Understanding",
+                "Current universal segmentation methods demonstrate strong capabilities in\npixel-level image and video understanding. However, they lack reasoning\nabilities and cannot be controlled via text instructions. In contrast, large\nvision-language multimodal models exhibit powerful vision-based conversation\nand reasoning capabilities but lack pixel-level understanding and have\ndifficulty accepting visual prompts for flexible user interaction. This paper\nproposes OMG-LLaVA, a new and elegant framework combining powerful pixel-level\nvision understanding with reasoning abilities. It can accept various visual and\ntext prompts for flexible user interaction. Specifically, we use a universal\nsegmentation method as the visual encoder, integrating image information,\nperception priors, and visual prompts into visual tokens provided to the LLM.\nThe LLM is responsible for understanding the user's text instructions and\nproviding text responses and pixel-level segmentation results based on the\nvisual information. We propose perception prior embedding to better integrate\nperception priors with image features. OMG-LLaVA achieves image-level,\nobject-level, and pixel-level reasoning and understanding in a single model,\nmatching or surpassing the performance of specialized methods on multiple\nbenchmarks. Rather than using LLM to connect each specialist, our work aims at\nend-to-end training on one encoder, one decoder, and one LLM. The code and\nmodel have been released for further research.",
+                "This article proposes a new framework that combines powerful pixel-level vision understanding with reasoning abilities. It can accept various visual and text prompts for flexible user interaction. This may be of interest to educational researchers who are looking at how AI and technology can be used to improve learning.",
+                "This article proposes a new framework that combines powerful pixel-level vision understanding with reasoning abilities, which can be used for flexible user interaction. This is relevant to educational researchers who are interested in AI and technology, as it could be used to develop new educational tools and resources."
+            ],
+            "dissim_value": 0.1
+        }
+    ],
+    "osf_llm_recs": [
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/2e73b/",
+                "The effects of isolated game elements on adherence rates in food-based response inhibition training",
+                "Introduction: Poor diet, and the consumption of foods high in fat, sugar and salt are common causes of numerous health conditions and premature mortality. Computerised food response inhibition training (food-RIT) is a type of intervention found to aid weight loss and reduce snacking of these foods with the inhibition of motor responses proposed to operate through the process of stimulus devaluation. However, these interventions are repetitive by nature and suffer from a lack of adherence, leading some to propose gamification as a solution to increase engagement. The effect of gamification is unclear, however, with a lack of research investigating the effects of single game elements in improving adherence to interventions. The current study therefore aims to investigate whether isolated common game elements (social or feedback) improve adherence, engagement and effectiveness of computerised food response inhibition training compared to standard non-gamified intervention.   Methods: A sample of 252 participants (169 Female) were randomly assigned to either a standard non-gamified food response inhibition training, a training gamified with feedback elements, or a training gamified with social elements. Participants completed measures of snacking frequency and food evaluation before and after a 14-day training period, during which they were instructed to complete their assigned training. Training adherence and daily training motivation was recorded during this training period. Results: There were no significant effects of adding either feedback or social gamification elements improved training adherence, motivation, or effectiveness. Conclusions: This study finds no meaningful support for adding isolated game elements to food-RIT with a view to improving intervention adherence. These results raise questions about the magnitude of simple gamification effects, and future research may benefit from assessing the combined effects of multiple gamification elements in such cognitive interventions.",
+                "Educational researcher interested in AI and technology will want to read this article because it investigates the effects of gamification on adherence to interventions. The results suggest that gamification may not be an effective way to improve adherence to interventions."
+            ],
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/b238p/",
+                "Labeling AI-Generated Media Online",
+                "Recent advancements in generative artificial intelligence (AI) have raised widespread concern about the use of this technology to spread audio and visual misinformation. In response, there has been a major push among policymakers and technology companies to label AI-generated media appearing online. It remains unclear, however, what labels are most effective for this purpose. Using two pre-registered survey experiments (total N = 7,579 Americans), we evaluate the consequences of different labeling strategies for viewers' beliefs and behavior. Overall, we find that all the labels we tested significantly decreased participants' belief in the presented claims. When it comes to engagement intentions, however, labels that merely informed participants that content was AI-generated tended to have limited impact, whereas labels emphasizing the content's potential to mislead more strongly influenced self-reported behavior, especially in the first study. Together, these results shed light on the relative advantages and disadvantages of different approaches to labeling AI-generated media.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in how AI and technology can be used to spread misinformation and how to mitigate this issue.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in the use of AI in education."
+            ],
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "6.4 Arts and music",
+                "https://osf.io/preprints/socarxiv/hb9ry/",
+                "Disentangling the entangled in productive ways: modelling SES from a process-relational perspective",
+                "Process-relational perspectives (PRP) have been proposed as new ways of conceptualising, analysing and engaging with social-ecological systems (SES) that are capable of dealing with intertwinedness and complexity. The application of PRP in SES research, however, remains challenging and mostly conceptual. We explore the possibilities and limitations of combining process-relational thought with agent-based modelling as a methodology for thinking with and exploring the becoming/emergence of SES. We call it relation-based modelling (RBM) and develop it through modelling the emergence/becoming of a virtual fishery. The RBM focuses attention towards the apparatus that shapes the emerging model structure which then provides the conditions for the emergence of fishery assemblages in a virtual, simulated world.  Our attempt to produce a model from a process-relational perspective supported critical reflection of our assumptions about fisheries and agent-based modelling, particularly with respect to questioning common ways of dissecting the world that hinder understanding their intertwinedness and dynamism. We highlight how organisation at different levels, from the arrangement of practices that shape the design of the model to the arrangements of elements in the virtual world of the simulation influence the emergence of a virtual fishery. We reflect on the tensions we encountered when disentangling the entangled, and formalising process-relational ideas and conceptualisations in the model and the learning and transformations that occurred through this process. A process-relational practice of modelling can open up possibilities to think differently about SES and change the way we theorise and act within them.",
+                "This article proposes a new methodology for agent-based modelling that can be used to study the emergence of social-ecological systems. This methodology may be of interest to educational researchers who study AI and technology, as it could be used to model the complex interactions between humans and technology in educational settings."
+            ],
+            "dissim_value": 0.474057247
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/mhpu9/",
+                "The role of spatial location in irrelevant speech revisited: A registered replication of Jones and Macken (1995)",
+                "The goal of the present investigation was to perform a registered replication of Jones and Macken\u2019s (1995b) study, which showed that the segregation of a sequence of sounds to distinct locations reduced the disruptive effect on serial recall. Thereby, it postulated an intriguing connection between auditory stream segregation and the cognitive mechanisms underlying the irrelevant speech effect. Specifically, it was found that a sequence of changing utterances was less disruptive in stereophonic presentation allowing each auditory object (letters) to be allocated to a unique location (right ear, left ear, center), compared to when the same sounds were played monophonically. Due to its importance for theoretical accounts of auditory distraction and because the results were somewhat equivocal, it is important to replicate this influential study with enhanced statistical power. The present replication (N=60) confirmed that the disruptive effect of a changing-state sequence (\"V-J-X\") as compared to a steady-state sequence (\"J-J-J\") - the changing-state effect - is reduced significantly with stereophonic presentation, suggesting that listeners perceptually grouped the presented sound into three separate steady-state streams, which produce much less interference with seriation compared to the monophonic presentation. However, in contrast to the original study, stereophonic steady-state sequences were found to be slightly more disruptive than monophonic sequences, suggesting that the change in location may also cause some interference on its own. Moreover, there was also a significant steady-state effect, with both steady-state conditions being more disruptive than silence. The results are discussed with regard to interference-by-process and attentional accounts of auditory distraction.",
+                "This article is relevant to educational researchers who study AI and technology because it investigates how auditory distraction can be reduced by presenting sounds in a stereophonic format. This has implications for the design of educational technology, such as virtual reality and augmented reality, which can be used to create immersive learning experiences."
+            ],
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/socarxiv/n29kq/",
+                "Citation practices in Wikipedia talk pages: First insights from an unexplored discussion channel",
+                "Wikipedia talk pages serve as democratic forums for editors, fostering discussions on article content and policies, which markedly differ from the formal content of main articles. While existing research predominantly focuses on the articles themselves, this study explores the unique citation dynamics within talk pages. Utilising data from the Wikipedia Knowledge Graph, Crossref Event Data, and OpenAlex, we examine the characteristics and patterns of citations within these collaborative discussions. Preliminary findings suggest that talk pages, although less frequented than main articles, engage deeply with scholarly outputs, often discussing them without necessarily transferring these citations to the main article content. This underscores the distinct consumption patterns on talk pages and their importance in shaping public and scholarly discourse on Wikipedia.",
+                "This article explores how citations are used on Wikipedia talk pages, which are democratic forums for editors to discuss article content and policies. This study's findings suggest that talk pages engage deeply with scholarly outputs, often discussing them without necessarily transferring these citations to the main article content. This underscores the distinct consumption patterns on talk pages and their importance in shaping public and scholarly discourse on Wikipedia. This article is relevant to educational researchers who study AI and technology because it provides insights into how people use Wikipedia to learn about and discuss new technologies.",
+                "This article explores how citations are used on Wikipedia talk pages, which are forums for editors to discuss article content and policies. This research is relevant to educational researchers who study AI and technology because it provides insights into how people use these tools to collaborate and share information."
+            ],
+            "dissim_value": 0.440808859
+        }
+    ],
+    "philarchive_llm_recs": [
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/2e73b/",
+                "The effects of isolated game elements on adherence rates in food-based response inhibition training",
+                "Introduction: Poor diet, and the consumption of foods high in fat, sugar and salt are common causes of numerous health conditions and premature mortality. Computerised food response inhibition training (food-RIT) is a type of intervention found to aid weight loss and reduce snacking of these foods with the inhibition of motor responses proposed to operate through the process of stimulus devaluation. However, these interventions are repetitive by nature and suffer from a lack of adherence, leading some to propose gamification as a solution to increase engagement. The effect of gamification is unclear, however, with a lack of research investigating the effects of single game elements in improving adherence to interventions. The current study therefore aims to investigate whether isolated common game elements (social or feedback) improve adherence, engagement and effectiveness of computerised food response inhibition training compared to standard non-gamified intervention.   Methods: A sample of 252 participants (169 Female) were randomly assigned to either a standard non-gamified food response inhibition training, a training gamified with feedback elements, or a training gamified with social elements. Participants completed measures of snacking frequency and food evaluation before and after a 14-day training period, during which they were instructed to complete their assigned training. Training adherence and daily training motivation was recorded during this training period. Results: There were no significant effects of adding either feedback or social gamification elements improved training adherence, motivation, or effectiveness. Conclusions: This study finds no meaningful support for adding isolated game elements to food-RIT with a view to improving intervention adherence. These results raise questions about the magnitude of simple gamification effects, and future research may benefit from assessing the combined effects of multiple gamification elements in such cognitive interventions.",
+                "This study investigates the effects of gamification on adherence to a computerised food response inhibition training intervention. The findings suggest that gamification does not improve adherence, motivation or effectiveness of the intervention. This has implications for the use of gamification in educational interventions."
+            ],
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/b238p/",
+                "Labeling AI-Generated Media Online",
+                "Recent advancements in generative artificial intelligence (AI) have raised widespread concern about the use of this technology to spread audio and visual misinformation. In response, there has been a major push among policymakers and technology companies to label AI-generated media appearing online. It remains unclear, however, what labels are most effective for this purpose. Using two pre-registered survey experiments (total N = 7,579 Americans), we evaluate the consequences of different labeling strategies for viewers' beliefs and behavior. Overall, we find that all the labels we tested significantly decreased participants' belief in the presented claims. When it comes to engagement intentions, however, labels that merely informed participants that content was AI-generated tended to have limited impact, whereas labels emphasizing the content's potential to mislead more strongly influenced self-reported behavior, especially in the first study. Together, these results shed light on the relative advantages and disadvantages of different approaches to labeling AI-generated media.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in how AI and technology can be used to spread misinformation and how to mitigate this issue.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in the use of AI in education."
+            ],
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "6.4 Arts and music",
+                "https://osf.io/preprints/socarxiv/hb9ry/",
+                "Disentangling the entangled in productive ways: modelling SES from a process-relational perspective",
+                "Process-relational perspectives (PRP) have been proposed as new ways of conceptualising, analysing and engaging with social-ecological systems (SES) that are capable of dealing with intertwinedness and complexity. The application of PRP in SES research, however, remains challenging and mostly conceptual. We explore the possibilities and limitations of combining process-relational thought with agent-based modelling as a methodology for thinking with and exploring the becoming/emergence of SES. We call it relation-based modelling (RBM) and develop it through modelling the emergence/becoming of a virtual fishery. The RBM focuses attention towards the apparatus that shapes the emerging model structure which then provides the conditions for the emergence of fishery assemblages in a virtual, simulated world.  Our attempt to produce a model from a process-relational perspective supported critical reflection of our assumptions about fisheries and agent-based modelling, particularly with respect to questioning common ways of dissecting the world that hinder understanding their intertwinedness and dynamism. We highlight how organisation at different levels, from the arrangement of practices that shape the design of the model to the arrangements of elements in the virtual world of the simulation influence the emergence of a virtual fishery. We reflect on the tensions we encountered when disentangling the entangled, and formalising process-relational ideas and conceptualisations in the model and the learning and transformations that occurred through this process. A process-relational practice of modelling can open up possibilities to think differently about SES and change the way we theorise and act within them.",
+                "This article proposes a new methodology for agent-based modelling that can be used to study the emergence of complex systems, such as educational systems. It may be of interest to educational researchers who are interested in using AI and technology to study education."
+            ],
+            "dissim_value": 0.474057247
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/mhpu9/",
+                "The role of spatial location in irrelevant speech revisited: A registered replication of Jones and Macken (1995)",
+                "The goal of the present investigation was to perform a registered replication of Jones and Macken\u2019s (1995b) study, which showed that the segregation of a sequence of sounds to distinct locations reduced the disruptive effect on serial recall. Thereby, it postulated an intriguing connection between auditory stream segregation and the cognitive mechanisms underlying the irrelevant speech effect. Specifically, it was found that a sequence of changing utterances was less disruptive in stereophonic presentation allowing each auditory object (letters) to be allocated to a unique location (right ear, left ear, center), compared to when the same sounds were played monophonically. Due to its importance for theoretical accounts of auditory distraction and because the results were somewhat equivocal, it is important to replicate this influential study with enhanced statistical power. The present replication (N=60) confirmed that the disruptive effect of a changing-state sequence (\"V-J-X\") as compared to a steady-state sequence (\"J-J-J\") - the changing-state effect - is reduced significantly with stereophonic presentation, suggesting that listeners perceptually grouped the presented sound into three separate steady-state streams, which produce much less interference with seriation compared to the monophonic presentation. However, in contrast to the original study, stereophonic steady-state sequences were found to be slightly more disruptive than monophonic sequences, suggesting that the change in location may also cause some interference on its own. Moreover, there was also a significant steady-state effect, with both steady-state conditions being more disruptive than silence. The results are discussed with regard to interference-by-process and attentional accounts of auditory distraction.",
+                "This article is relevant to educational researchers who study AI and technology because it investigates how auditory distraction can be reduced by presenting sounds in a stereophonic format. This has implications for the design of educational technology, such as virtual reality and augmented reality, which can be used to create immersive learning experiences."
+            ],
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/socarxiv/n29kq/",
+                "Citation practices in Wikipedia talk pages: First insights from an unexplored discussion channel",
+                "Wikipedia talk pages serve as democratic forums for editors, fostering discussions on article content and policies, which markedly differ from the formal content of main articles. While existing research predominantly focuses on the articles themselves, this study explores the unique citation dynamics within talk pages. Utilising data from the Wikipedia Knowledge Graph, Crossref Event Data, and OpenAlex, we examine the characteristics and patterns of citations within these collaborative discussions. Preliminary findings suggest that talk pages, although less frequented than main articles, engage deeply with scholarly outputs, often discussing them without necessarily transferring these citations to the main article content. This underscores the distinct consumption patterns on talk pages and their importance in shaping public and scholarly discourse on Wikipedia.",
+                "This article explores how citations are used on Wikipedia talk pages, which are democratic forums for editors to discuss article content and policies. This research is relevant to educational researchers who study AI and technology, as it sheds light on how people use these tools to collaborate and share knowledge.",
+                "This article is about how Wikipedia talk pages are used to discuss scholarly outputs. It may be of interest to educational researchers who study AI and technology, as it provides insights into how people interact with and use information online."
+            ],
+            "dissim_value": 0.440808859
+        }
+    ],
+    "arxiv_cosine_ranked": [
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19170v1",
+                "The Illusion of Competence: Evaluating the Effect of Explanations on Users' Mental Models of Visual Question Answering Systems",
+                "We examine how users perceive the limitations of an AI system when it\nencounters a task that it cannot perform perfectly and whether providing\nexplanations alongside its answers aids users in constructing an appropriate\nmental model of the system's capabilities and limitations. We employ a visual\nquestion answer and explanation task where we control the AI system's\nlimitations by manipulating the visual inputs: during inference, the system\neither processes full-color or grayscale images. Our goal is to determine\nwhether participants can perceive the limitations of the system. We hypothesize\nthat explanations will make limited AI capabilities more transparent to users.\nHowever, our results show that explanations do not have this effect. Instead of\nallowing users to more accurately assess the limitations of the AI system,\nexplanations generally increase users' perceptions of the system's competence -\nregardless of its actual performance.",
+                "This article is relevant to educational researchers who study AI and technology because it investigates how users perceive the limitations of AI systems and whether providing explanations alongside answers aids users in constructing an appropriate mental model of the system's capabilities and limitations."
+            ],
+            "score": 0.3678762357687251,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19392v1",
+                "ReXTime: A Benchmark Suite for Reasoning-Across-Time in Videos",
+                "We introduce ReXTime, a benchmark designed to rigorously test AI models'\nability to perform temporal reasoning within video events. Specifically,\nReXTime focuses on reasoning across time, i.e. human-like understanding when\nthe question and its corresponding answer occur in different video segments.\nThis form of reasoning, requiring advanced understanding of cause-and-effect\nrelationships across video segments, poses significant challenges to even the\nfrontier multimodal large language models. To facilitate this evaluation, we\ndevelop an automated pipeline for generating temporal reasoning question-answer\npairs, significantly reducing the need for labor-intensive manual annotations.\nOur benchmark includes 921 carefully vetted validation samples and 2,143 test\nsamples, each manually curated for accuracy and relevance. Evaluation results\nshow that while frontier large language models outperform academic models, they\nstill lag behind human performance by a significant 14.3% accuracy gap.\nAdditionally, our pipeline creates a training dataset of 9,695 machine\ngenerated samples without manual effort, which empirical studies suggest can\nenhance the across-time reasoning via fine-tuning.",
+                "This article introduces a new benchmark that can be used to evaluate AI models' ability to perform temporal reasoning within video events. This is an important area of research for educational researchers who are interested in how AI and technology can be used to support learning."
+            ],
+            "score": 0.2879201420710584,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19256v1",
+                "AI Data Readiness Inspector (AIDRIN) for Quantitative Assessment of Data Readiness for AI",
+                "\"Garbage In Garbage Out\" is a universally agreed quote by computer scientists\nfrom various domains, including Artificial Intelligence (AI). As data is the\nfuel for AI, models trained on low-quality, biased data are often ineffective.\nComputer scientists who use AI invest a considerable amount of time and effort\nin preparing the data for AI. However, there are no standard methods or\nframeworks for assessing the \"readiness\" of data for AI. To provide a\nquantifiable assessment of the readiness of data for AI processes, we define\nparameters of AI data readiness and introduce AIDRIN (AI Data Readiness\nInspector). AIDRIN is a framework covering a broad range of readiness\ndimensions available in the literature that aid in evaluating the readiness of\ndata quantitatively and qualitatively. AIDRIN uses metrics in traditional data\nquality assessment such as completeness, outliers, and duplicates for data\nevaluation. Furthermore, AIDRIN uses metrics specific to assess data for AI,\nsuch as feature importance, feature correlations, class imbalance, fairness,\nprivacy, and FAIR (Findability, Accessibility, Interoperability, and\nReusability) principle compliance. AIDRIN provides visualizations and reports\nto assist data scientists in further investigating the readiness of data. The\nAIDRIN framework enhances the efficiency of the machine learning pipeline to\nmake informed decisions on data readiness for AI applications.",
+                "Educational researchers who look at AI and technology will want to read this article because it introduces a framework for assessing the readiness of data for AI applications. This framework can help researchers ensure that the data they are using for AI models is of high quality and will lead to more accurate and effective results."
+            ],
+            "score": 0.26506783381656857,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19226v1",
+                "Simulating Classroom Education with LLM-Empowered Agents",
+                "Large language models (LLMs) have been employed in various intelligent\neducational tasks to assist teaching. While preliminary explorations have\nfocused on independent LLM-empowered agents for specific educational tasks, the\npotential for LLMs within a multi-agent collaborative framework to simulate a\nclassroom with real user participation remains unexplored. In this work, we\npropose SimClass, a multi-agent classroom simulation framework involving user\nparticipation. We recognize representative class roles and introduce a novel\nclass control mechanism for automatic classroom teaching, and conduct user\nexperiments in two real-world courses. Utilizing the Flanders Interactive\nAnalysis System and Community of Inquiry theoretical frame works from\neducational analysis, we demonstrate that LLMs can simulate traditional\nclassroom interaction patterns effectively while enhancing user's experience.\nWe also observe emergent group behaviors among agents in SimClass, where agents\ncollaborate to create enlivening interactions in classrooms to improve user\nlearning process. We hope this work pioneers the application of LLM-empowered\nmulti-agent systems in virtual classroom teaching.",
+                "This article proposes a multi-agent classroom simulation framework that uses large language models to simulate traditional classroom interaction patterns and enhance user experience. It provides empirical evidence that LLM-empowered multi-agent systems can be used in virtual classroom teaching.",
+                "This article proposes a multi-agent classroom simulation framework that uses large language models to simulate traditional classroom interaction patterns and enhance user experience. It provides empirical evidence that LLM-empowered multi-agent systems can be used for virtual classroom teaching."
+            ],
+            "score": 0.21907384218528794,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19236v1",
+                "Human-Aware Vision-and-Language Navigation: Bridging Simulation to Reality with Dynamic Human Interactions",
+                "Vision-and-Language Navigation (VLN) aims to develop embodied agents that\nnavigate based on human instructions. However, current VLN frameworks often\nrely on static environments and optimal expert supervision, limiting their\nreal-world applicability. To address this, we introduce Human-Aware\nVision-and-Language Navigation (HA-VLN), extending traditional VLN by\nincorporating dynamic human activities and relaxing key assumptions. We propose\nthe Human-Aware 3D (HA3D) simulator, which combines dynamic human activities\nwith the Matterport3D dataset, and the Human-Aware Room-to-Room (HA-R2R)\ndataset, extending R2R with human activity descriptions. To tackle HA-VLN\nchallenges, we present the Expert-Supervised Cross-Modal (VLN-CM) and\nNon-Expert-Supervised Decision Transformer (VLN-DT) agents, utilizing\ncross-modal fusion and diverse training strategies for effective navigation in\ndynamic human environments. A comprehensive evaluation, including metrics\nconsidering human activities, and systematic analysis of HA-VLN's unique\nchallenges, underscores the need for further research to enhance HA-VLN agents'\nreal-world robustness and adaptability. Ultimately, this work provides\nbenchmarks and insights for future research on embodied AI and Sim2Real\ntransfer, paving the way for more realistic and applicable VLN systems in\nhuman-populated environments.",
+                "This article introduces Human-Aware Vision-and-Language Navigation (HA-VLN), which extends traditional VLN by incorporating dynamic human activities and relaxing key assumptions. This work provides benchmarks and insights for future research on embodied AI and Sim2Real transfer, paving the way for more realistic and applicable VLN systems in human-populated environments."
+            ],
+            "score": 0.1891592177347962,
+            "dissim_value": 0.1
+        }
+    ],
+    "osf_cosine_ranked": [
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/b238p/",
+                "Labeling AI-Generated Media Online",
+                "Recent advancements in generative artificial intelligence (AI) have raised widespread concern about the use of this technology to spread audio and visual misinformation. In response, there has been a major push among policymakers and technology companies to label AI-generated media appearing online. It remains unclear, however, what labels are most effective for this purpose. Using two pre-registered survey experiments (total N = 7,579 Americans), we evaluate the consequences of different labeling strategies for viewers' beliefs and behavior. Overall, we find that all the labels we tested significantly decreased participants' belief in the presented claims. When it comes to engagement intentions, however, labels that merely informed participants that content was AI-generated tended to have limited impact, whereas labels emphasizing the content's potential to mislead more strongly influenced self-reported behavior, especially in the first study. Together, these results shed light on the relative advantages and disadvantages of different approaches to labeling AI-generated media.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in how AI and technology can be used to spread misinformation and how to mitigate this issue.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in the use of AI in education."
+            ],
+            "score": 0.35894650460876076,
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.6 Political Science",
+                "https://osf.io/preprints/socarxiv/rhf4q/",
+                "The Promises and Pitfalls of Using Panel Data to Understand Individual Belief Change",
+                "In this article, we investigate whether studies on political belief change can identify change trajectories at the individual level. Using simulations and empirical case studies, we propose a grid-search framework that allows researchers to evaluate the extent to which their target estimates generalize to individuals in their study population. We use simulated datasets to estimate plausible values for how many people changed, how much they changed, and who changed, based on observed survey response trajectories. Our results suggest that researchers should think carefully about the conditions under which they can make claims about belief change at the individual level.",
+                "This article is relevant to educational researchers who study AI and technology because it investigates how studies on political belief change can identify change trajectories at the individual level. This research has implications for how educational researchers design studies on how AI and technology affect beliefs and attitudes."
+            ],
+            "score": 0.17176960019590942,
+            "dissim_value": 0.500981966
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/socarxiv/n29kq/",
+                "Citation practices in Wikipedia talk pages: First insights from an unexplored discussion channel",
+                "Wikipedia talk pages serve as democratic forums for editors, fostering discussions on article content and policies, which markedly differ from the formal content of main articles. While existing research predominantly focuses on the articles themselves, this study explores the unique citation dynamics within talk pages. Utilising data from the Wikipedia Knowledge Graph, Crossref Event Data, and OpenAlex, we examine the characteristics and patterns of citations within these collaborative discussions. Preliminary findings suggest that talk pages, although less frequented than main articles, engage deeply with scholarly outputs, often discussing them without necessarily transferring these citations to the main article content. This underscores the distinct consumption patterns on talk pages and their importance in shaping public and scholarly discourse on Wikipedia.",
+                "This article explores how citations are used on Wikipedia talk pages, which are democratic forums for editors to discuss article content and policies. This study's findings suggest that talk pages engage deeply with scholarly outputs, often discussing them without necessarily transferring these citations to the main article content. This underscores the distinct consumption patterns on talk pages and their importance in shaping public and scholarly discourse on Wikipedia. This article is relevant to educational researchers who study AI and technology because it provides insights into how people use Wikipedia to learn about and discuss new technologies.",
+                "This article explores how citations are used on Wikipedia talk pages, which are forums for editors to discuss article content and policies. This research is relevant to educational researchers who study AI and technology because it provides insights into how people use these tools to collaborate and share information."
+            ],
+            "score": 0.15313115837191865,
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/9x6a5/",
+                "The fable of state self-control",
+                "Trait self-control is highly valued, often equated with moral righteousness and associated with numerous positive life outcomes. This paper challenges the conventional conflation of trait self-control and state self-control. We suggest that while trait self-control is consistently linked to success, state self-control is not the causal mechanism driving these benefits. Trait self-control, sometimes also referred to as conscientiousness, grit, and the ability to delay gratification, predicts better health, wealth, and academic achievement. Conventional wisdom has it that people high in trait self-control reap all these benefits because they engage in more state self-control, defined as the momentary act of resolving conflict between goals and fleeting desires. Despite its intuitive appeal, there are problems with extolling state self-control because of our love for trait self-control. First, empirical evidence suggests that individuals high in trait self-control do not engage in more state self-control but engage it less. Second, changes to state self-control do not reliably and sustainably improve people\u2019s outcomes, as least in the long-term. And third, despite the possibility of dramatic improvements in trait self-control, these improvements are often short lived, with people returning to their baseline trait level over longer time horizons. The roots of this problem are numerous: Imprecise and inaccurate naming of our constructs that lead to construct drift and contamination; ignoring the numerous other facets of conscientiousness like orderliness or industriousness; and not appreciating the separation between levels of analysis that are sometimes not reducible to one another. We suggest that the celebrated benefits of trait self-control arise from mechanisms beyond state self-control and highlight the need for a broader conceptualization of self-control in psychological research and practical interventions.",
+                "This article challenges the conventional wisdom that people high in trait self-control reap all the benefits because they engage in more state self-control. This has implications for educational research on AI and technology, as it suggests that interventions designed to increase state self-control may not be as effective as interventions designed to increase trait self-control."
+            ],
+            "score": 0.11323810835158134,
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/2djkq/",
+                "Exploring the Impact of Sleep Deprivation on Anxiety and Self-Esteem Among Bangladeshi University Students",
+                "Adequate sleep is essential for physical development, mental health, behavior, and cognitive function and significantly impacts academic motivation and performance. Various studies examined sleep deprivation and anxiety to evaluate their effects on students. However, there is a lack of evidence on self-esteem that is counted in sleep deprivation research. This study aimed to look at the effects of sleep deprivation on self-esteem and anxiety among university students in Bangladesh. From June 14 to August 30, 2022, a cross-sectional survey involved the participation of 200 Bangladeshi university students recruited using a convenient sampling procedure. The Bangla version of the Anxiety Scale and the Rosenberg Self-esteem Questionnaire (RSQ) were applied to assess the variables in the study. The findings revealed that sleep-deprived students displayed substantially higher anxiety levels than their non-deprived counterparts. Furthermore, a statistically significant correlation was found between the amount of sleep individuals received and their level of anxiety. These findings highlight the alarming prevalence of insufficient sleep, low self-esteem, and high anxiety among university students in Bangladesh. The study also highlights the significance of fostering sound slumber patterns and self-esteem in university students. Extending support to sleep-deprived students, such as flexible deadlines, helps them manage their studies without sacrificing sleep; establishing peer support groups and making counseling services readily available for addressing sleep-related issues, anxiety, and self-esteem concerns is vital.",
+                "This article is relevant to educational researchers who look at AI and technology because it examines the effects of sleep deprivation on self-esteem and anxiety among university students in Bangladesh. The findings suggest that sleep-deprived students have lower self-esteem and higher anxiety levels, which may impact their academic performance. This study highlights the importance of fostering sound sleep patterns and self-esteem in university students."
+            ],
+            "score": 0.1038980345964631,
+            "dissim_value": 0.440808859
+        }
+    ],
+    "philarchive_cosine_ranked": [
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/b238p/",
+                "Labeling AI-Generated Media Online",
+                "Recent advancements in generative artificial intelligence (AI) have raised widespread concern about the use of this technology to spread audio and visual misinformation. In response, there has been a major push among policymakers and technology companies to label AI-generated media appearing online. It remains unclear, however, what labels are most effective for this purpose. Using two pre-registered survey experiments (total N = 7,579 Americans), we evaluate the consequences of different labeling strategies for viewers' beliefs and behavior. Overall, we find that all the labels we tested significantly decreased participants' belief in the presented claims. When it comes to engagement intentions, however, labels that merely informed participants that content was AI-generated tended to have limited impact, whereas labels emphasizing the content's potential to mislead more strongly influenced self-reported behavior, especially in the first study. Together, these results shed light on the relative advantages and disadvantages of different approaches to labeling AI-generated media.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in how AI and technology can be used to spread misinformation and how to mitigate this issue.",
+                "This article investigates the effectiveness of different labeling strategies for AI-generated media. It provides useful insights for educational researchers who are interested in the use of AI in education."
+            ],
+            "score": 0.35894650460876076,
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.6 Political Science",
+                "https://osf.io/preprints/socarxiv/rhf4q/",
+                "The Promises and Pitfalls of Using Panel Data to Understand Individual Belief Change",
+                "In this article, we investigate whether studies on political belief change can identify change trajectories at the individual level. Using simulations and empirical case studies, we propose a grid-search framework that allows researchers to evaluate the extent to which their target estimates generalize to individuals in their study population. We use simulated datasets to estimate plausible values for how many people changed, how much they changed, and who changed, based on observed survey response trajectories. Our results suggest that researchers should think carefully about the conditions under which they can make claims about belief change at the individual level.",
+                "This article is relevant to educational researchers who study AI and technology because it investigates how studies on political belief change can identify change trajectories at the individual level. This research could inform educational researchers' work on how AI and technology can be used to promote positive change in students' beliefs and behaviors."
+            ],
+            "score": 0.17176960019590942,
+            "dissim_value": 0.500981966
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/socarxiv/n29kq/",
+                "Citation practices in Wikipedia talk pages: First insights from an unexplored discussion channel",
+                "Wikipedia talk pages serve as democratic forums for editors, fostering discussions on article content and policies, which markedly differ from the formal content of main articles. While existing research predominantly focuses on the articles themselves, this study explores the unique citation dynamics within talk pages. Utilising data from the Wikipedia Knowledge Graph, Crossref Event Data, and OpenAlex, we examine the characteristics and patterns of citations within these collaborative discussions. Preliminary findings suggest that talk pages, although less frequented than main articles, engage deeply with scholarly outputs, often discussing them without necessarily transferring these citations to the main article content. This underscores the distinct consumption patterns on talk pages and their importance in shaping public and scholarly discourse on Wikipedia.",
+                "This article explores how citations are used on Wikipedia talk pages, which are democratic forums for editors to discuss article content and policies. This research is relevant to educational researchers who study AI and technology, as it sheds light on how people use these tools to collaborate and share knowledge.",
+                "This article is about how Wikipedia talk pages are used to discuss scholarly outputs. It may be of interest to educational researchers who study AI and technology, as it provides insights into how people interact with and use information online."
+            ],
+            "score": 0.15313115837191865,
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/9x6a5/",
+                "The fable of state self-control",
+                "Trait self-control is highly valued, often equated with moral righteousness and associated with numerous positive life outcomes. This paper challenges the conventional conflation of trait self-control and state self-control. We suggest that while trait self-control is consistently linked to success, state self-control is not the causal mechanism driving these benefits. Trait self-control, sometimes also referred to as conscientiousness, grit, and the ability to delay gratification, predicts better health, wealth, and academic achievement. Conventional wisdom has it that people high in trait self-control reap all these benefits because they engage in more state self-control, defined as the momentary act of resolving conflict between goals and fleeting desires. Despite its intuitive appeal, there are problems with extolling state self-control because of our love for trait self-control. First, empirical evidence suggests that individuals high in trait self-control do not engage in more state self-control but engage it less. Second, changes to state self-control do not reliably and sustainably improve people\u2019s outcomes, as least in the long-term. And third, despite the possibility of dramatic improvements in trait self-control, these improvements are often short lived, with people returning to their baseline trait level over longer time horizons. The roots of this problem are numerous: Imprecise and inaccurate naming of our constructs that lead to construct drift and contamination; ignoring the numerous other facets of conscientiousness like orderliness or industriousness; and not appreciating the separation between levels of analysis that are sometimes not reducible to one another. We suggest that the celebrated benefits of trait self-control arise from mechanisms beyond state self-control and highlight the need for a broader conceptualization of self-control in psychological research and practical interventions.",
+                "This article challenges the conventional wisdom that people high in trait self-control reap all the benefits because they engage in more state self-control. This has implications for educational research on AI and technology, as it suggests that interventions designed to increase state self-control may not be as effective as interventions designed to increase trait self-control."
+            ],
+            "score": 0.11323810835158134,
+            "dissim_value": 0.440808859
+        },
+        {
+            "article": [
+                "5.1 Psychology",
+                "https://osf.io/preprints/psyarxiv/2djkq/",
+                "Exploring the Impact of Sleep Deprivation on Anxiety and Self-Esteem Among Bangladeshi University Students",
+                "Adequate sleep is essential for physical development, mental health, behavior, and cognitive function and significantly impacts academic motivation and performance. Various studies examined sleep deprivation and anxiety to evaluate their effects on students. However, there is a lack of evidence on self-esteem that is counted in sleep deprivation research. This study aimed to look at the effects of sleep deprivation on self-esteem and anxiety among university students in Bangladesh. From June 14 to August 30, 2022, a cross-sectional survey involved the participation of 200 Bangladeshi university students recruited using a convenient sampling procedure. The Bangla version of the Anxiety Scale and the Rosenberg Self-esteem Questionnaire (RSQ) were applied to assess the variables in the study. The findings revealed that sleep-deprived students displayed substantially higher anxiety levels than their non-deprived counterparts. Furthermore, a statistically significant correlation was found between the amount of sleep individuals received and their level of anxiety. These findings highlight the alarming prevalence of insufficient sleep, low self-esteem, and high anxiety among university students in Bangladesh. The study also highlights the significance of fostering sound slumber patterns and self-esteem in university students. Extending support to sleep-deprived students, such as flexible deadlines, helps them manage their studies without sacrificing sleep; establishing peer support groups and making counseling services readily available for addressing sleep-related issues, anxiety, and self-esteem concerns is vital.",
+                "This article is relevant to educational researchers who look at AI and technology because it examines the effects of sleep deprivation on self-esteem and anxiety among university students in Bangladesh. The findings suggest that sleep-deprived students have lower self-esteem and higher anxiety levels, which could have implications for their academic performance. The article also discusses the importance of fostering sound sleep patterns and self-esteem in university students."
+            ],
+            "score": 0.1038980345964631,
+            "dissim_value": 0.440808859
+        }
+    ],
+    "adj_ranked": [
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19271v1",
+                "AutoPureData: Automated Filtering of Web Data for LLM Fine-tuning",
+                "Up-to-date and reliable Large Language Models (LLMs) are consistently sought\nafter. Typically, LLMs are trained on a fixed dataset and then deployed.\nHowever, the training data continually becomes outdated. Enable automatic\ntraining of AI using web data involves significant concerns regarding data\nquality and safety due to bias, spam, and other unsafe or unwanted text. Pure\ndata is essential for producing reliable models. Training a model on impure\ndata may result in undesirable outcomes. This research proposes a system that\ncollects web data and automatically filters out unwanted text with the\nassistance of existing trusted AI models. In the experiment, a small sample of\nweb data was collected and filtered, demonstrating the system's effectiveness\nin purifying the data.",
+                "Educational researchers who study AI and technology will want to read this article because it proposes a system that collects and filters web data to improve the quality of training data for large language models. This is important for educational researchers who use AI and technology in their work, as they need to ensure that the data they use is accurate and reliable."
+            ],
+            "score": 0.18075196171006674,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19217v1",
+                "Think Step by Step: Chain-of-Gesture Prompting for Error Detection in Robotic Surgical Videos",
+                "Despite significant advancements in robotic systems and surgical data\nscience, ensuring safe and optimal execution in robot-assisted minimally\ninvasive surgery (RMIS) remains a complex challenge. Current surgical error\ndetection methods involve two parts: identifying surgical gestures and then\ndetecting errors within each gesture clip. These methods seldom consider the\nrich contextual and semantic information inherent in surgical videos, limiting\ntheir performance due to reliance on accurate gesture identification. Motivated\nby the chain-of-thought prompting in natural language processing, this letter\npresents a novel and real-time end-to-end error detection framework,\nChain-of-Thought (COG) prompting, leveraging contextual information from\nsurgical videos. This encompasses two reasoning modules designed to mimic the\ndecision-making processes of expert surgeons. Concretely, we first design a\nGestural-Visual Reasoning module, which utilizes transformer and attention\narchitectures for gesture prompting, while the second, a Multi-Scale Temporal\nReasoning module, employs a multi-stage temporal convolutional network with\nboth slow and fast paths for temporal information extraction. We extensively\nvalidate our method on the public benchmark RMIS dataset JIGSAWS. Our method\nencapsulates the reasoning processes inherent to surgical activities enabling\nit to outperform the state-of-the-art by 4.6% in F1 score, 4.6% in Accuracy,\nand 5.9% in Jaccard index while processing each frame in 6.69 milliseconds on\naverage, demonstrating the great potential of our approach in enhancing the\nsafety and efficacy of RMIS procedures and surgical education. The code will be\navailable.",
+                "This article presents a novel AI method for surgical error detection that leverages contextual information from surgical videos. It has the potential to enhance the safety and efficacy of RMIS procedures and surgical education.",
+                "This article presents a novel AI method for surgical error detection that leverages contextual information from surgical videos. It has the potential to enhance the safety and efficacy of RMIS procedures and surgical education."
+            ],
+            "score": 0.17566358970646867,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19356v1",
+                "DiVERT: Distractor Generation with Variational Errors Represented as Text for Math Multiple-choice Questions",
+                "High-quality distractors are crucial to both the assessment and pedagogical\nvalue of multiple-choice questions (MCQs), where manually crafting ones that\nanticipate knowledge deficiencies or misconceptions among real students is\ndifficult. Meanwhile, automated distractor generation, even with the help of\nlarge language models (LLMs), remains challenging for subjects like math. It is\ncrucial to not only identify plausible distractors but also understand the\nerror behind them. In this paper, we introduce DiVERT (Distractor Generation\nwith Variational Errors Represented as Text), a novel variational approach that\nlearns an interpretable representation of errors behind distractors in math\nMCQs. Through experiments on a real-world math MCQ dataset with 1,434 questions\nused by hundreds of thousands of students, we show that DiVERT, despite using a\nbase open-source LLM with 7B parameters, outperforms state-of-the-art\napproaches using GPT-4o on downstream distractor generation. We also conduct a\nhuman evaluation with math educators and find that DiVERT leads to error labels\nthat are of comparable quality to human-authored ones.",
+                "This article presents a novel approach to generate distractors for multiple-choice questions in math. It uses a variational approach to learn an interpretable representation of errors behind distractors. This approach outperforms state-of-the-art methods and leads to error labels of comparable quality to human-authored ones.",
+                "This article introduces DiVERT, a novel approach to generate distractors for math MCQs. It outperforms state-of-the-art approaches and leads to error labels of comparable quality to human-authored ones. This is important for educational researchers who look at AI and technology as it can help improve the assessment and pedagogical value of MCQs."
+            ],
+            "score": 0.1718941684982273,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19389v1",
+                "OMG-LLaVA: Bridging Image-level, Object-level, Pixel-level Reasoning and Understanding",
+                "Current universal segmentation methods demonstrate strong capabilities in\npixel-level image and video understanding. However, they lack reasoning\nabilities and cannot be controlled via text instructions. In contrast, large\nvision-language multimodal models exhibit powerful vision-based conversation\nand reasoning capabilities but lack pixel-level understanding and have\ndifficulty accepting visual prompts for flexible user interaction. This paper\nproposes OMG-LLaVA, a new and elegant framework combining powerful pixel-level\nvision understanding with reasoning abilities. It can accept various visual and\ntext prompts for flexible user interaction. Specifically, we use a universal\nsegmentation method as the visual encoder, integrating image information,\nperception priors, and visual prompts into visual tokens provided to the LLM.\nThe LLM is responsible for understanding the user's text instructions and\nproviding text responses and pixel-level segmentation results based on the\nvisual information. We propose perception prior embedding to better integrate\nperception priors with image features. OMG-LLaVA achieves image-level,\nobject-level, and pixel-level reasoning and understanding in a single model,\nmatching or surpassing the performance of specialized methods on multiple\nbenchmarks. Rather than using LLM to connect each specialist, our work aims at\nend-to-end training on one encoder, one decoder, and one LLM. The code and\nmodel have been released for further research.",
+                "This article proposes a new framework that combines powerful pixel-level vision understanding with reasoning abilities. It can accept various visual and text prompts for flexible user interaction. This may be of interest to educational researchers who are looking at how AI and technology can be used to improve learning.",
+                "This article proposes a new framework that combines powerful pixel-level vision understanding with reasoning abilities, which can be used for flexible user interaction. This is relevant to educational researchers who are interested in AI and technology, as it could be used to develop new educational tools and resources."
+            ],
+            "score": 0.1579423005211758,
+            "dissim_value": 0.1
+        },
+        {
+            "article": [
+                "1.2 Computer and information sciences",
+                "http://arxiv.org/abs/2406.19354v1",
+                "Fundamental Problems With Model Editing: How Should Rational Belief Revision Work in LLMs?",
+                "The model editing problem concerns how language models should learn new facts\nabout the world over time. While empirical research on model editing has drawn\nwidespread attention, the conceptual foundations of model editing remain shaky\n-- perhaps unsurprisingly, since model editing is essentially belief revision,\na storied problem in philosophy that has eluded succinct solutions for decades.\nModel editing nonetheless demands a solution, since we need to be able to\ncontrol the knowledge within language models. With this goal in mind, this\npaper critiques the standard formulation of the model editing problem and\nproposes a formal testbed for model editing research. We first describe 12 open\nproblems with model editing, based on challenges with (1) defining the problem,\n(2) developing benchmarks, and (3) assuming LLMs have editable beliefs in the\nfirst place. Many of these challenges are extremely difficult to address, e.g.\ndetermining far-reaching consequences of edits, labeling probabilistic\nentailments between facts, and updating beliefs of agent simulators. Next, we\nintroduce a semi-synthetic dataset for model editing based on Wikidata, where\nwe can evaluate edits against labels given by an idealized Bayesian agent. This\nenables us to say exactly how belief revision in language models falls short of\na desirable epistemic standard. We encourage further research exploring\nsettings where such a gold standard can be compared against. Our code is\npublicly available at: https://github.com/peterbhase/LLM-belief-revision",
+                "This article provides a critique of the standard formulation of the model editing problem and proposes a formal testbed for model editing research. It is relevant to educational researchers who are interested in AI and technology because it discusses how language models can be used to learn new facts about the world over time and how to control the knowledge within language models."
+            ],
+            "score": 0.1351466315557245,
+            "dissim_value": 0.1
+        }
+    ]
+}

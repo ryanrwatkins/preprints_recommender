@@ -12,12 +12,23 @@ import re
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-from user_profile import user_profile
-import api
 from langdetect import detect
 import time
 from retry import retry
 
+# the first relative imports are for pytest since it uses a different directory, and if not pytest then it uses the regular
+try:
+    from .user_profile import user_profile
+    from .api_keys import hf_api_key, palm_api_key
+    from .arxiv_articles import get_arxiv
+    from .osf_articles import get_osf
+    from .philarchive_articles import get_philarchive
+except ImportError:
+    from user_profile import user_profile
+    from api_keys import hf_api_key, palm_api_key
+    from arxiv_articles import get_arxiv
+    from osf_articles import get_osf
+    from philarchive_articles import get_philarchive
 
 logging.basicConfig(
     filename="py_error_log.txt",
@@ -31,10 +42,17 @@ directory_path = os.path.dirname(os.path.abspath(__file__))
 global current_datetime
 current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings
+""" # this is for playing with pytest
+def fun_function(value):
+    x = value + 12
+    return x
+ """
+
+
 def initiate_embedding(content):
+    """HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings"""
     model_id = "sentence-transformers/all-MiniLM-L6-v2"  # this model only embedds the first 256 words, but that is enough for our purposes and it is a small load which is better
-    hf_token = api.hf_api_key
+    hf_token = hf_api_key
     content = content
     api_url = (
         f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
@@ -53,13 +71,12 @@ def initiate_embedding(content):
             )
 
     embedding = embedding(content)
-    print("got embedding")
+    # print("got embedding")
     return embedding
 
 
-# Connecting to BARD - PALM (in future could offer other LLM systems too)dd
 def palm_llm(llm_prompt, temp, output_max, safety):
-    palm.configure(api_key=api.palm_api_key)
+    palm.configure(api_key=palm_api_key)
     # this gets the latest model for text generation
     models = [
         m
@@ -102,8 +119,8 @@ def palm_llm(llm_prompt, temp, output_max, safety):
     return llm_completion.result
 
 
-# GENERATING KEYWORDS BASED ON USE PROFILE - OPTION TWO USING LLM
 def get_keywords_llm(biography):
+    """Uses the user biography to identify key words that will be used in arxiv search"""
     print("finding keywords")
     global research_interests
     keywords_prompt = (
@@ -149,184 +166,184 @@ def select_discipline(biography):
     return user_discipline
 
 
-# get arxiv articles based on key words (6 per keyword at this point)
-def get_arxiv_rec(research_interests):
+# # get arxiv articles based on key words (6 per keyword at this point)
+# def get_arxiv_rec(research_interests):
 
-    global arxiv_articles
-    arxiv_articles = []
-    global number_days
-    number_days = 1
+#     global arxiv_articles
+#     arxiv_articles = []
+#     global number_days
+#     number_days = 1
 
-    utc = pytz.UTC
-    now = utc.localize(datetime.now())
-    # Enclose each word in quotes and join with " OR "
-    search_query = " OR ".join(f'"{keyword}"' for keyword in research_interests)
-    # Uses double quote bcause it forces arXiv to match the keywords in the title, abstract or comments.  https://arxiv.org/multi?group=physics&%2Ffind=Search
-    def get_arxiv():
-        global number_days
-        """ taxonomy = working_directory + "/src/arxiv_taxonomy.csv" """
-        """ taxonomy = working_directory + "/arxiv_taxonomy.csv" """
-        taxonomy = os.path.join(directory_path, "resources/arxiv_taxonomy.csv")
+#     utc = pytz.UTC
+#     now = utc.localize(datetime.now())
+#     # Enclose each word in quotes and join with " OR "
+#     search_query = " OR ".join(f'"{keyword}"' for keyword in research_interests)
+#     # Uses double quote bcause it forces arXiv to match the keywords in the title, abstract or comments.  https://arxiv.org/multi?group=physics&%2Ffind=Search
+#     def get_arxiv():
+#         global number_days
+#         """ taxonomy = working_directory + "/src/arxiv_taxonomy.csv" """
+#         """ taxonomy = working_directory + "/arxiv_taxonomy.csv" """
+#         taxonomy = os.path.join(directory_path, "resources/arxiv_taxonomy.csv")
 
-        arxiv_tax_df = pd.read_csv(taxonomy)
+#         arxiv_tax_df = pd.read_csv(taxonomy)
 
-        """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
-        """ schema = working_directory + "/schema_mapping_cleaned.csv" """
-        schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
+#         """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
+#         """ schema = working_directory + "/schema_mapping_cleaned.csv" """
+#         schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
 
-        mapping_df = pd.read_csv(schema)
+#         mapping_df = pd.read_csv(schema)
 
-        MAX_RETRIES = 5
-        RETRY_DELAY = 5
+#         MAX_RETRIES = 5
+#         RETRY_DELAY = 5
 
-        for keyword in research_interests:
-            for attempt in range(MAX_RETRIES):
-                try:
-                    search = arxiv.Search(
-                        query=keyword,
-                        max_results=10,  # Make this a variable in user_profile file
-                        sort_by=arxiv.SortCriterion.SubmittedDate,
-                    )
-                    print(f"Processing keyword: {keyword}")
-                    for result in search.results():
-                        # go back day by day until you get recs. arXiv doesn't update on weekends so this is used
-                        if now - timedelta(days=number_days) <= result.published <= now:
-                            # add oecd discipline for later use in dissimilarity values
-                            arxiv_group = arxiv_tax_df.loc[
-                                arxiv_tax_df["category_id"] == result.primary_category
-                            ].iloc[0, 0]
-                            oecd_discipline = mapping_df.loc[
-                                mapping_df["dc_arxiv_names"] == arxiv_group
-                            ].iloc[0, 1]
-                            article_abstract = [
-                                oecd_discipline,
-                                result.entry_id,
-                                result.title,
-                                result.summary,
-                            ]
-                            arxiv_articles.append(article_abstract)
+#         for keyword in research_interests:
+#             for attempt in range(MAX_RETRIES):
+#                 try:
+#                     search = arxiv.Search(
+#                         query=keyword,
+#                         max_results=10,  # Make this a variable in user_profile file
+#                         sort_by=arxiv.SortCriterion.SubmittedDate,
+#                     )
+#                     print(f"Processing keyword: {keyword}")
+#                     for result in search.results():
+#                         # go back day by day until you get recs. arXiv doesn't update on weekends so this is used
+#                         if now - timedelta(days=number_days) <= result.published <= now:
+#                             # add oecd discipline for later use in dissimilarity values
+#                             arxiv_group = arxiv_tax_df.loc[
+#                                 arxiv_tax_df["category_id"] == result.primary_category
+#                             ].iloc[0, 0]
+#                             oecd_discipline = mapping_df.loc[
+#                                 mapping_df["dc_arxiv_names"] == arxiv_group
+#                             ].iloc[0, 1]
+#                             article_abstract = [
+#                                 oecd_discipline,
+#                                 result.entry_id,
+#                                 result.title,
+#                                 result.summary,
+#                             ]
+#                             arxiv_articles.append(article_abstract)
 
-                except requests.exceptions.ConnectionError as e:
-                    # Log the error, if you have a logging setup
-                    logging.error(f"arXiv Attempt {attempt + 1} failed with error: {e}")
-                    if attempt < MAX_RETRIES - 1:  # i.e. not the last attempt
-                        logging.error(f"arXiv Retrying in {RETRY_DELAY} seconds...")
-                        time.sleep(RETRY_DELAY)
-                    else:
-                        logging.error("arXiv Max retries reached. Exiting.")
-                        os._exit(0)
-                except Exception as e:
-                    logging.error(f"Unexpected error for keyword '{keyword}': {e}")
+#                 except requests.exceptions.ConnectionError as e:
+#                     # Log the error, if you have a logging setup
+#                     logging.error(f"arXiv Attempt {attempt + 1} failed with error: {e}")
+#                     if attempt < MAX_RETRIES - 1:  # i.e. not the last attempt
+#                         logging.error(f"arXiv Retrying in {RETRY_DELAY} seconds...")
+#                         time.sleep(RETRY_DELAY)
+#                     else:
+#                         logging.error("arXiv Max retries reached. Exiting.")
+#                         os._exit(0)
+#                 except Exception as e:
+#                     logging.error(f"Unexpected error for keyword '{keyword}': {e}")
 
-    def retrieve_articles():
-        global number_days
-        MAX_DAYS_BACK = 10
-        while len(arxiv_articles) < 10 and number_days <= MAX_DAYS_BACK:
-            number_days += 1
-            get_arxiv()
+#     def retrieve_articles():
+#         global number_days
+#         MAX_DAYS_BACK = 10
+#         while len(arxiv_articles) < 10 and number_days <= MAX_DAYS_BACK:
+#             number_days += 1
+#             get_arxiv()
 
-        if len(arxiv_articles) < 10:
-            print(
-                "Couldn't retrieve at least 10 articles even after going back {} days.".format(
-                    MAX_DAYS_BACK
-                )
-            )
+#         if len(arxiv_articles) < 10:
+#             print(
+#                 "Couldn't retrieve at least 10 articles even after going back {} days.".format(
+#                     MAX_DAYS_BACK
+#                 )
+#             )
 
-    retrieve_articles()
+#     retrieve_articles()
 
-    no_dups = []  # take out duplicate arXiv results and put in new list
-    for elem in arxiv_articles:
-        if elem not in no_dups:
-            no_dups.append(elem)
-    arxiv_articles = no_dups
-    print("got arxiv articles " + str(len(arxiv_articles)))
-    return arxiv_articles
+#     no_dups = []  # take out duplicate arXiv results and put in new list
+#     for elem in arxiv_articles:
+#         if elem not in no_dups:
+#             no_dups.append(elem)
+#     arxiv_articles = no_dups
+#     print("got arxiv articles " + str(len(arxiv_articles)))
+#     return arxiv_articles
 
 
 # get articles from OSF -- no keyword option, so we just get the last 24hrs (much fewer than arxiv so this works)
-def get_osf_rec():
-    global osf_articles
-    print("getting OSF articles")
-    osf_articles = []
+# def get_osf_rec():
+#     global osf_articles
+#     print("getting OSF articles")
+#     osf_articles = []
 
-    today = date.today()
-    yesterday = str(today - timedelta(days=1))
+#     today = date.today()
+#     yesterday = str(today - timedelta(days=1))
 
-    """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
-    """ schema = working_directory + "/schema_mapping_cleaned.csv" """
-    schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
-    mapping_df = pd.read_csv(schema)
+#     """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
+#     """ schema = working_directory + "/schema_mapping_cleaned.csv" """
+#     schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
+#     mapping_df = pd.read_csv(schema)
 
-    # get all preprints from yesterday
-    osf_api = (
-        "https://api.osf.io/v2/preprints/?filter%5Bdate_created%5D="
-        + yesterday
-        + "&format=jsonapi"
-    )
+#     # get all preprints from yesterday
+#     osf_api = (
+#         "https://api.osf.io/v2/preprints/?filter%5Bdate_created%5D="
+#         + yesterday
+#         + "&format=jsonapi"
+#     )
 
-    # api comes in 10 per page so we collect all the pages into one
-    osf_api = requests.get(osf_api).json()
-    all_articles = osf_api["data"]
-    while osf_api["links"]["next"]:
-        osf_api = requests.get(osf_api["links"]["next"]).json()
-        all_articles.extend(osf_api["data"])
+#     # api comes in 10 per page so we collect all the pages into one
+#     osf_api = requests.get(osf_api).json()
+#     all_articles = osf_api["data"]
+#     while osf_api["links"]["next"]:
+#         osf_api = requests.get(osf_api["links"]["next"]).json()
+#         all_articles.extend(osf_api["data"])
 
-    for i in enumerate(all_articles):
-        # first we may a list of subject areas we are not interested in based on fields are from https://www.bepress.com/wp-content/uploads/2016/12/bepress_Disciplines_taxonomy.pdf
-        not_interested = [
-            "Psychiatry",
-        ]  # ["Psychiatry", "Medicine and Health Sciences", "Life Sciences", "Mathematics", "Chemistry"]
-        # then we make a list of all the subjects and sub-subjects that are listed for the preprint
-        subjects_list = []
-        for subjects in i[1]["attributes"]["subjects"][0]:
-            subjects_list.append(subjects["text"])
-        # then we just want English preprints
+#     for i in enumerate(all_articles):
+#         # first we may a list of subject areas we are not interested in based on fields are from https://www.bepress.com/wp-content/uploads/2016/12/bepress_Disciplines_taxonomy.pdf
+#         not_interested = [
+#             "Psychiatry",
+#         ]  # ["Psychiatry", "Medicine and Health Sciences", "Life Sciences", "Mathematics", "Chemistry"]
+#         # then we make a list of all the subjects and sub-subjects that are listed for the preprint
+#         subjects_list = []
+#         for subjects in i[1]["attributes"]["subjects"][0]:
+#             subjects_list.append(subjects["text"])
+#         # then we just want English preprints
 
-        try:
-            # we use a try function here since if langdetect can't find text to determine what language it may send an error (such as if there is no description given), and if that happens we tell it to continue on with the next iteration of the loop
-            detect(i[1]["attributes"]["description"])
-            # if there is no error in the detect, then we can check the language
-            if (detect(i[1]["attributes"]["description"]) == "en") and (
-                detect(i[1]["attributes"]["title"]) == "en"
-            ):
-                # if the description is in English, then we just want articles whose subjects are not listed in our not_interested list
-                if not any(x in subjects_list for x in not_interested):
-                    # add oecd discipline so that we can do dissimilirity value later
-                    if len(i[1]["attributes"]["subjects"][0]) == 2:
-                        article = [
-                            i[1]["attributes"]["subjects"][0][0]["text"]
-                            + ": "
-                            + i[1]["attributes"]["subjects"][0][1]["text"],
-                            i[1]["links"]["html"],
-                            i[1]["attributes"]["title"],
-                            i[1]["attributes"]["description"],
-                        ]
-                        oecd_discipline = mapping_df.loc[
-                            mapping_df["dc_arxiv_names"] == article[0]
-                        ].iloc[0, 1]
-                    else:
-                        article = [
-                            i[1]["attributes"]["subjects"][0][0]["text"],
-                            i[1]["links"]["html"],
-                            i[1]["attributes"]["title"],
-                            i[1]["attributes"]["description"],
-                        ]
-                        oecd_discipline = mapping_df.loc[
-                            mapping_df["dc_arxiv_names"] == article[0]
-                        ].iloc[0, 1]
-                    article[0] = oecd_discipline
-                    osf_articles.append(article)
-        except:
-            continue
+#         try:
+#             # we use a try function here since if langdetect can't find text to determine what language it may send an error (such as if there is no description given), and if that happens we tell it to continue on with the next iteration of the loop
+#             detect(i[1]["attributes"]["description"])
+#             # if there is no error in the detect, then we can check the language
+#             if (detect(i[1]["attributes"]["description"]) == "en") and (
+#                 detect(i[1]["attributes"]["title"]) == "en"
+#             ):
+#                 # if the description is in English, then we just want articles whose subjects are not listed in our not_interested list
+#                 if not any(x in subjects_list for x in not_interested):
+#                     # add oecd discipline so that we can do dissimilirity value later
+#                     if len(i[1]["attributes"]["subjects"][0]) == 2:
+#                         article = [
+#                             i[1]["attributes"]["subjects"][0][0]["text"]
+#                             + ": "
+#                             + i[1]["attributes"]["subjects"][0][1]["text"],
+#                             i[1]["links"]["html"],
+#                             i[1]["attributes"]["title"],
+#                             i[1]["attributes"]["description"],
+#                         ]
+#                         oecd_discipline = mapping_df.loc[
+#                             mapping_df["dc_arxiv_names"] == article[0]
+#                         ].iloc[0, 1]
+#                     else:
+#                         article = [
+#                             i[1]["attributes"]["subjects"][0][0]["text"],
+#                             i[1]["links"]["html"],
+#                             i[1]["attributes"]["title"],
+#                             i[1]["attributes"]["description"],
+#                         ]
+#                         oecd_discipline = mapping_df.loc[
+#                             mapping_df["dc_arxiv_names"] == article[0]
+#                         ].iloc[0, 1]
+#                     article[0] = oecd_discipline
+#                     osf_articles.append(article)
+#         except:
+#             continue
 
-    # remove duplicates
-    no_dups = []
-    for elem in osf_articles:
-        if elem not in no_dups:
-            no_dups.append(elem)
-    osf_articles = no_dups
-    print("got osf articles " + str(len(osf_articles)))
-    return osf_articles
+#     # remove duplicates
+#     no_dups = []
+#     for elem in osf_articles:
+#         if elem not in no_dups:
+#             no_dups.append(elem)
+#     osf_articles = no_dups
+#     print("got osf articles " + str(len(osf_articles)))
+#     return osf_articles
 
 
 # remove duplicates for ranking function below just to be safe
@@ -345,7 +362,7 @@ def remove_duplicates(data):
 
 
 # have Bard add rationales for recommendations
-def bard_rationale(recs_list, biography):
+def add_rationale(recs_list, biography):
     print("adding rationales")
     for i in recs_list:
         # we limit the biography to the first 500 characters since BARD currently only takes 1000 tokens as input and we require space for the article abstract
@@ -367,7 +384,7 @@ def bard_rationale(recs_list, biography):
 # LLM only recommendations
 def llm_ranked_article(biography, articles, source):
     global llm_results
-    print("getting LLM articles")
+    print("getting LLM ranking of articles")
     shortened_articles = []
     if (
         len(str(articles)) > 18000
@@ -396,7 +413,6 @@ def llm_ranked_article(biography, articles, source):
     temp = 0
     output_max = 500
     safety = 4
-    print("down to palm")
     llm_recs_urls = palm_llm(llm_recs_prompt, temp, output_max, safety)
 
     url_pattern = re.compile(
@@ -433,15 +449,16 @@ def llm_ranked_article(biography, articles, source):
         llm_article_dict = {"article": llm_result, "dissim_value": dissim_value}
         llm_results_with_score.append(llm_article_dict)
 
-    llm_results = bard_rationale(llm_results_with_score, biography)
+    llm_results = add_rationale(llm_results_with_score, biography)
     return llm_results
 
 
-def ranked_articles(biography, articles, source, adjacent_value):
-    """For creating ranked recs by sentence-transformers on hugging face"""
+def cosine_ranked_articles(biography, articles, source, adjacent_value):
+    """For creating ranked recs using cosine-similarity by sentence-transformers on huggingface"""
     global results
     global arxiv_filtered_results
     global osf_filetered_results
+    global philarchive_filetered_results
     print("ranking articles")
     results = []
 
@@ -495,7 +512,7 @@ def ranked_articles(biography, articles, source, adjacent_value):
         # pass the rest for adj recs
         arxiv_filtered_results = results[5:]
         # add rationales
-        arxiv_results = bard_rationale(arxiv_results, biography)
+        arxiv_results = add_rationale(arxiv_results, biography)
         print("got arxiv articles")
         print("passing remaining arxiv articles " + str(len(arxiv_filtered_results)))
         return (arxiv_results, arxiv_filtered_results)
@@ -510,29 +527,43 @@ def ranked_articles(biography, articles, source, adjacent_value):
         # pass the rest for adj recs
         osf_filtered_results = results[5:]
         # add rationales
-        osf_results = bard_rationale(osf_results, biography)
+        osf_results = add_rationale(osf_results, biography)
         print("got osf LLM articles")
         print("passing remaining osf articles " + str(len(osf_filtered_results)))
         return (osf_results, osf_filtered_results)
 
+    if source == "philarchive_":
+        philarchive_filtered_results = [
+            item for item in results if isinstance(item, dict)
+        ]
+        philarchive_filtered_results = remove_duplicates(philarchive_filtered_results)
+        # sort by score
+        results = sorted(
+            philarchive_filtered_results, key=lambda x: x["score"], reverse=True
+        )
+        # choose how many
+        philarchive_results = results[0:5]
+        # pass the rest for adj recs
+        philarchive_filtered_results = results[5:]
+        # add rationales
+        philarchive_results = add_rationale(philarchive_results, biography)
+        print("got philarchive LLM articles")
+        print(
+            "passing remaining philarchive articles "
+            + str(len(philarchive_filtered_results))
+        )
+        return (philarchive_results, philarchive_filtered_results)
 
-"""
-def adjacent_recs_old(arxiv_filtered_results, osf_filtered_results, biography, adjacent_value):
-    global merged_results
-    print("getting adj recs")
-    merged_results = arxiv_filtered_results + osf_filtered_results  # two lists
-    merged_results = [item for item in merged_results if isinstance(item, dict)]   # now one list
-    merged_results = sorted(merged_results, key=lambda x: x['weighted'], reverse=True)  #having False here puts them in ascending rather than descending
-    # choose how many
-    merged_results = merged_results[0:5]
-    merged_results = bard_rationale(merged_results, biography)
-    print("got adj recs")
-    return merged_results
-"""
-# create adjacent recommendations and filter by user selected distance
+
 def adjacent_recs(
-    arxiv_filtered_results, osf_filtered_results, biography, adjacent_value
+    arxiv_filtered_results,
+    osf_filtered_results,
+    philarchive_filtered_results,
+    biography,
+    adjacent_value,
 ):
+    """Uses the adjacent fields value from the user to recommend preprints that are disciplinarily
+    further from their home discipline"""
     global merged_results
     print("getting adj recs")
 
@@ -540,7 +571,9 @@ def adjacent_recs(
         dissim_value_mapping = {1: 0.01, 2: 0.15, 3: 0.4, 4: 0.6}
         return dissim_value_mapping.get(user_preference, 0)
 
-    merged_results = arxiv_filtered_results + osf_filtered_results  # two lists
+    merged_results = (
+        arxiv_filtered_results + osf_filtered_results + philarchive_filtered_results
+    )
     merged_results = [
         item for item in merged_results if isinstance(item, dict)
     ]  # now one list
@@ -554,7 +587,7 @@ def adjacent_recs(
     filtered_results = sorted(filtered_results, key=lambda x: x["score"], reverse=True)
     # Return the top 5 results
     filtered_results = filtered_results[0:5]
-    filtered_results = bard_rationale(filtered_results, biography)
+    filtered_results = add_rationale(filtered_results, biography)
     print("got adj recs")
     return filtered_results
 
@@ -563,7 +596,7 @@ def save_recommendations_to_json(recommendations, directory="src/outputs"):
     """file_path = working_directory + f"/src/outputs/recommendations_{current_datetime}.json" """
     """ file_path = working_directory + f"/outputs/recommendations_{current_datetime}.json" """
     file_path = os.path.join(
-        directory_path, f"/outputs/recommendations_{current_datetime}.json"
+        directory_path, f"outputs/recommendations_{current_datetime}.json"
     )
     with open(file_path, "w") as json_file:
         json.dump(recommendations, json_file, indent=4)
@@ -578,7 +611,6 @@ def research_interests():
 
 
 def update_discipline():
-
     """Take the user bio and then determines what OECD discipine they fall withing"""
     user_discipline = select_discipline(user_profile.biography)
     user_profile.discipline = user_discipline
@@ -590,27 +622,42 @@ def update_recommendations():
     """Creates the five different types of recommendations and saves to json"""
     research_interests()
     update_discipline()
-    get_arxiv_rec(research_interests)
-    get_osf_rec()
 
     print("getting arxiv_llm_recs")
+    arxiv_articles = get_arxiv(research_interests)
     arxiv_llm_recs = llm_ranked_article(
         user_profile.biography, arxiv_articles, "arxiv_"
     )
+
     print("getting osf_llm_recs")
+    osf_articles = get_osf()
     osf_llm_recs = llm_ranked_article(user_profile.biography, osf_articles, "osf_")
 
-    arxiv_ranked, arxiv_filtered_results = ranked_articles(
+    print("getting osf_llm_recs")
+    philarchive_articles = get_philarchive()
+    philarchive_llm_recs = llm_ranked_article(
+        user_profile.biography, philarchive_articles, "philarchive_"
+    )
+
+    arxiv_ranked, arxiv_filtered_results = cosine_ranked_articles(
         user_profile.biography, arxiv_articles, "arxiv_", user_profile.adjacent_value
     )
 
-    osf_ranked, osf_filtered_results = ranked_articles(
+    osf_ranked, osf_filtered_results = cosine_ranked_articles(
         user_profile.biography, osf_articles, "osf_", user_profile.adjacent_value
+    )
+
+    philarchive_ranked, philarchive_filtered_results = cosine_ranked_articles(
+        user_profile.biography,
+        philarchive_articles,
+        "philarchive_",
+        user_profile.adjacent_value,
     )
 
     adj_ranked = adjacent_recs(
         arxiv_filtered_results,
         osf_filtered_results,
+        philarchive_filtered_results,
         user_profile.biography,
         user_profile.adjacent_value,
     )
@@ -618,15 +665,17 @@ def update_recommendations():
     recommendations = {
         "arxiv_llm_recs": arxiv_llm_recs,
         "osf_llm_recs": osf_llm_recs,
-        "arxiv_ranked": arxiv_ranked,
-        "osf_ranked": osf_ranked,
+        "philarchive_llm_recs": philarchive_llm_recs,
+        "arxiv_cosine_ranked": arxiv_ranked,
+        "osf_cosine_ranked": osf_ranked,
+        "philarchive_cosine_ranked": philarchive_ranked,
         "adj_ranked": adj_ranked,
     }
 
     save_recommendations_to_json(recommendations)
-
-    # print("Recommendations updated successfully!")
-    # os._exit(0)
+    print("Recommendations updated successfully!")
+    os._exit(0)
+    return recommendations
 
 
 if __name__ == "__main__":
