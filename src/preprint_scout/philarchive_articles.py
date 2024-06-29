@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-import os
 
 
 def get_philarchive():
@@ -60,5 +59,5 @@ def get_philarchive():
 
                 philarchive_articles.append(article_abstract)
 
-    print("number of philarchive article = " + len(philarchive_articles))
+    print("number of philarchive article = " + str(len(philarchive_articles)))
     return philarchive_articles

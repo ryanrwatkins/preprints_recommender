@@ -1,10 +1,7 @@
 import os
-from os.path import exists
-import re
 from datetime import datetime, timedelta, date
 import requests
 from langdetect import detect
-from retry import retry
 import pandas as pd
 
 global directory_path

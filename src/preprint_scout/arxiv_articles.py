@@ -1,11 +1,9 @@
 import os
-from os.path import exists
 import logging
 import arxiv
 from datetime import datetime, timedelta, date
 import pytz
 import requests
-from langdetect import detect
 import time
 import pandas as pd
 
