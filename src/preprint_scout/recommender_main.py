@@ -11,7 +11,6 @@ from datetime import datetime
 # the first relative imports are for pytest since it uses a different directory, and if not pytest then it uses the regular
 try:
     from .user_profile import user_profile
-    from .api_keys import hf_api_key, palm_api_key
     from .arxiv_articles import get_arxiv
     from .osf_articles import get_osf
     from .philarchive_articles import get_philarchive
@@ -19,7 +18,6 @@ try:
     from .llms import palm_llm
 except ImportError:
     from user_profile import user_profile
-    from api_keys import hf_api_key, palm_api_key
     from arxiv_articles import get_arxiv
     from osf_articles import get_osf
     from philarchive_articles import get_philarchive
@@ -418,7 +416,7 @@ def update_recommendations():
         "adj_ranked": adj_ranked,
     }
 
-    save_recommendations_to_json(recommendations)
+    # save_recommendations_to_json(recommendations) # Creates an archive of past recommendations in /outputs
     print("Recommendations updated successfully!")
     return recommendations
     # os._exit(0)
