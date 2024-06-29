@@ -10,19 +10,19 @@ from datetime import datetime
 
 # the first relative imports are for pytest since it uses a different directory, and if not pytest then it uses the regular
 try:
-    from .user_profile import user_profile
+    # from .user_profile import user_profile
     from .arxiv_articles import get_arxiv
     from .osf_articles import get_osf
     from .philarchive_articles import get_philarchive
     from .embedding import initiate_embedding
     from .llms import palm_llm
 except ImportError:
-    from user_profile import user_profile
+    # from user_profile import user_profile
     from arxiv_articles import get_arxiv
     from osf_articles import get_osf
     from philarchive_articles import get_philarchive
     from embedding import initiate_embedding
-    from .llms import palm_llm
+    from llms import palm_llm
 
 logging.basicConfig(
     filename="py_error_log.txt",
@@ -336,74 +336,60 @@ def adjacent_recs(
     return filtered_results
 
 
-def save_recommendations_to_json(recommendations, directory="src/outputs"):
+def save_recommendations_to_json(recommendations, output_directory):
     """file_path = working_directory + f"/src/outputs/recommendations_{current_datetime}.json" """
     """ file_path = working_directory + f"/outputs/recommendations_{current_datetime}.json" """
+    output_directory = os.path.abspath(output_directory)
+    os.makedirs(output_directory, exist_ok=True)
     file_path = os.path.join(
-        directory_path, f"outputs/recommendations_{current_datetime}.json"
+        output_directory, f"recommendations_{current_datetime}.json"
     )
     with open(file_path, "w") as json_file:
         json.dump(recommendations, json_file, indent=4)
     print(f"Recommendations saved to {file_path}")
 
 
-def research_interests():
-    """takes profile and identifies keywords that will be used in arxiv search"""
-    research_interests_keywords = get_keywords_llm(user_profile.biography)
-    user_profile.keywords = research_interests_keywords
-    user_profile.save()
-
-
-def update_discipline():
-    """Take the user bio and then determines what OECD discipine they fall withing"""
-    user_discipline = select_discipline(user_profile.biography)
-    user_profile.discipline = user_discipline
-    user_profile.save()
-
-
 # command function for running the other functions in the right order and saving results for each user
 def update_recommendations():
     """Creates the five different types of recommendations and saves to json"""
-    research_interests()
-    update_discipline()
+    get_keywords_llm(user_biography)
+    select_discipline(user_biography)
 
     print("getting arxiv_llm_recs")
     arxiv_articles = get_arxiv(research_interests)
-    arxiv_llm_recs = llm_ranked_article(
-        user_profile.biography, arxiv_articles, "arxiv_"
-    )
+    arxiv_llm_recs = llm_ranked_article(user_biography, arxiv_articles, "arxiv_")
 
     print("getting osf_llm_recs")
     osf_articles = get_osf()
-    osf_llm_recs = llm_ranked_article(user_profile.biography, osf_articles, "osf_")
+    osf_llm_recs = llm_ranked_article(user_biography, osf_articles, "osf_")
 
     print("getting osf_llm_recs")
     philarchive_articles = get_philarchive()
     philarchive_llm_recs = llm_ranked_article(
-        user_profile.biography, philarchive_articles, "philarchive_"
+        user_biography, philarchive_articles, "philarchive_"
     )
 
     arxiv_ranked, arxiv_filtered_results = cosine_ranked_articles(
-        user_profile.biography, arxiv_articles, "arxiv_", user_profile.adjacent_value
+        user_biography, arxiv_articles, "arxiv_", user_adjacent
     )
 
     osf_ranked, osf_filtered_results = cosine_ranked_articles(
-        user_profile.biography, osf_articles, "osf_", user_profile.adjacent_value
+        user_biography, osf_articles, "osf_", user_adjacent
     )
 
     philarchive_ranked, philarchive_filtered_results = cosine_ranked_articles(
-        user_profile.biography,
+        user_biography,
         philarchive_articles,
         "philarchive_",
-        user_profile.adjacent_value,
+        user_adjacent,
     )
 
     adj_ranked = adjacent_recs(
         arxiv_filtered_results,
         osf_filtered_results,
         philarchive_filtered_results,
-        user_profile.biography,
-        user_profile.adjacent_value,
+        user_biography,
+        user_adjacent,
     )
 
     recommendations = {
@@ -416,14 +402,34 @@ def update_recommendations():
         "adj_ranked": adj_ranked,
     }
 
-    # save_recommendations_to_json(recommendations) # Creates an archive of past recommendations in /outputs
-    print("Recommendations updated successfully!")
+    if output_directory:
+        save_recommendations_to_json(recommendations, output_directory)
+    else:
+        print("No output directory provided for saving json file")
+    print("Recommendations successfully created!")
     return recommendations
     # os._exit(0)
 
 
+def recommendation_main(
+    your_short_biography,
+    adjacent_interests,
+    huggingface_api_key,
+    openai_api_key,
+    output_path,
+):
+    global user_biography
+    user_biography = your_short_biography
+    global user_adjacent
+    user_adjacent = adjacent_interests
+    global output_directory
+    output_directory = output_path
+    update_recommendations()
+    pass
+
+
 if __name__ == "__main__":
     try:
-        update_recommendations()
+        recommendation_main()
     except Exception as e:
         logging.error(f"Error occurred: {str(e)}", exc_info=True)

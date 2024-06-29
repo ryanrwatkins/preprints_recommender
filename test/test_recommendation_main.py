@@ -60,5 +60,16 @@ def test_save_recommendations_to_json():
     recommender_main.get_osf_rec()  """
 
 
+""" def test_get_osf_rec():
+    recommender_main.update_recommendations() """
+
+""" def test_get_osf_rec():
+    recommender_main.recommendation_main("I am a engineer", "3", "x", "x", "Users/rwatkins_1/Python projects/preprints")
+ """
+
+
 def test_get_osf_rec():
-    recommender_main.update_recommendations()
+    recommendations = ["sample", "sample"]
+    recommender_main.save_recommendations_to_json(
+        recommendations, "/Users/rwatkins_1/Python projects/preprints"
+    )

@@ -1,4 +1,0 @@
-Biography: "I am an educational researcher who looks at AI and technology."
-Adjacent value: 2
-Discipline: 1.2 Computer and information sciences
-Keywords: ['AI', 'Education', 'Technology', 'Research']
