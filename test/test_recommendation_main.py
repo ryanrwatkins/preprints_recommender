@@ -11,6 +11,8 @@ from src.preprint_scout import arxiv_articles as arxiv_articles
 from src.preprint_scout import osf_articles as osf_articles
 from src.preprint_scout import philarchive_articles as philarchive_articles
 
+from src.preprint_scout import api_keys
+
 
 # from src.preprint_scout.user_profile import UserProfile, user_profile
 
@@ -63,13 +65,23 @@ def test_save_recommendations_to_json():
 """ def test_get_osf_rec():
     recommender_main.update_recommendations() """
 
-""" def test_get_osf_rec():
-    recommender_main.recommendation_main("I am a engineer", "3", "x", "x", "Users/rwatkins_1/Python projects/preprints")
- """
+biography = "I am a engineer who studies artificial intelligence in electric vehicles."
+huggingface_api_key = api_keys.hf_api_key
+google_api_key = api_keys.palm_api_key
 
 
 def test_get_osf_rec():
+    recommender_main.recommendation_main(
+        biography,
+        huggingface_api_key=huggingface_api_key,
+        google_api_key=google_api_key,
+        interdisciplinary="3",
+        output_path="/Users/rwatkins_1/Python projects/preprints",
+    )
+
+
+""" def test_get_osf_rec():
     recommendations = ["sample", "sample"]
     recommender_main.save_recommendations_to_json(
         recommendations, "/Users/rwatkins_1/Python projects/preprints"
-    )
+    ) """

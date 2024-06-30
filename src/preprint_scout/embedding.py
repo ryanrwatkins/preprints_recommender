@@ -1,13 +1,8 @@
 import requests
 from retry import retry
 
-try:
-    from .api_keys import hf_api_key, palm_api_key
-except ImportError:
-    from api_keys import hf_api_key, palm_api_key
 
-
-def initiate_embedding(content):
+def initiate_embedding(content, hf_api_key):
     """HuggingFace API for getting embeddings -- somewhat based on https://huggingface.co/blog/getting-started-with-embeddings"""
     model_id = "sentence-transformers/all-MiniLM-L6-v2"  # this model only embedds the first 256 words, but that is enough for our purposes and it is a small load which is better
     hf_token = hf_api_key

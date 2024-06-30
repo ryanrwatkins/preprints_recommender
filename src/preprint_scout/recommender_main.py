@@ -15,14 +15,14 @@ try:
     from .osf_articles import get_osf
     from .philarchive_articles import get_philarchive
     from .embedding import initiate_embedding
-    from .llms import palm_llm
+    from .llms import llm
 except ImportError:
     # from user_profile import user_profile
     from arxiv_articles import get_arxiv
     from osf_articles import get_osf
     from philarchive_articles import get_philarchive
     from embedding import initiate_embedding
-    from llms import palm_llm
+    from llms import llm
 
 logging.basicConfig(
     filename="py_error_log.txt",
@@ -48,13 +48,15 @@ def get_keywords_llm(biography):
     print("finding keywords")
     global research_interests
     keywords_prompt = (
-        "Create a list of just four key words that describe the researcher's interest. Use an asterisk to start a new line for each key  word."
+        "Create a list of just four key words that describe the researcher's interest based on the description below. Use an asterisk to start a new line for each key  word."
         + str(biography)
     )
     temp = 0
     output_max = 800
     safety = 4
-    keywords = palm_llm(keywords_prompt, temp, output_max, safety)
+    keywords = llm(
+        keywords_prompt, temp, output_max, gpt_api_key, gemini_api_key, safety
+    )
 
     pattern = "(?:\*.*)"
     keywords = re.findall(pattern, keywords)
@@ -79,9 +81,9 @@ def select_discipline(biography):
     dissim_df = pd.read_csv(matrix)
     disciplines = dissim_df["oecd_names"].tolist()
     print("starting to get embeddings")
-    user_embedding = initiate_embedding([str(biography)])
+    user_embedding = initiate_embedding([str(biography)], hf_api_key)
     print("getting user_embedding")
-    discipline_embedding = initiate_embedding(disciplines)
+    discipline_embedding = initiate_embedding(disciplines, hf_api_key)
     print("getting discipline_embedding")
     similarities = cosine_similarity(user_embedding, discipline_embedding)
     most_similar_idx = similarities.argmax()  # get the index of the highest similarity
@@ -119,7 +121,9 @@ def add_rationale(recs_list, biography):
         temp = 0.25
         output_max = 500
         safety = 4
-        recs_rationale = palm_llm(prompt_recs_rationale, temp, output_max, safety)
+        recs_rationale = llm(
+            prompt_recs_rationale, temp, output_max, gpt_api_key, gemini_api_key, safety
+        )
         i["article"].append(recs_rationale)
     print("added rationales")
     return recs_list
@@ -157,7 +161,9 @@ def llm_ranked_article(biography, articles, source):
     temp = 0
     output_max = 500
     safety = 4
-    llm_recs_urls = palm_llm(llm_recs_prompt, temp, output_max, safety)
+    llm_recs_urls = llm(
+        llm_recs_prompt, temp, output_max, gpt_api_key, gemini_api_key, safety
+    )
 
     url_pattern = re.compile(
         r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
@@ -201,14 +207,14 @@ def cosine_ranked_articles(biography, articles, source, adjacent_value):
     """For creating ranked recs using cosine-similarity by sentence-transformers on huggingface"""
     global results
     global arxiv_filtered_results
-    global osf_filetered_results
-    global philarchive_filetered_results
+    global combined_filtered_results
+    # global philarchive_filtered_results
     print("ranking articles")
     results = []
 
     # then for each article from the arXiv/osf search results, create embedding
     for article in articles:
-        article_embedding = initiate_embedding([article[3]])
+        article_embedding = initiate_embedding([article[3]], hf_api_key)
         cosine_scores = cosine_similarity(article_embedding, user_embedding)
         # return the just the cosine_score as an element in a list -- e.g  [.34343]
         score_list = cosine_scores.tolist()[0]
@@ -261,48 +267,53 @@ def cosine_ranked_articles(biography, articles, source, adjacent_value):
         print("passing remaining arxiv articles " + str(len(arxiv_filtered_results)))
         return (arxiv_results, arxiv_filtered_results)
 
-    if source == "osf_":
-        osf_filtered_results = [item for item in results if isinstance(item, dict)]
-        osf_filtered_results = remove_duplicates(osf_filtered_results)
-        # sort by score
-        results = sorted(osf_filtered_results, key=lambda x: x["score"], reverse=True)
-        # choose how many
-        osf_results = results[0:5]
-        # pass the rest for adj recs
-        osf_filtered_results = results[5:]
-        # add rationales
-        osf_results = add_rationale(osf_results, biography)
-        print("got osf LLM articles")
-        print("passing remaining osf articles " + str(len(osf_filtered_results)))
-        return (osf_results, osf_filtered_results)
-
-    if source == "philarchive_":
-        philarchive_filtered_results = [
-            item for item in results if isinstance(item, dict)
-        ]
-        philarchive_filtered_results = remove_duplicates(philarchive_filtered_results)
+    if source == "combined_":
+        combined_filtered_results = [item for item in results if isinstance(item, dict)]
+        combined_filtered_results = remove_duplicates(combined_filtered_results)
         # sort by score
         results = sorted(
-            philarchive_filtered_results, key=lambda x: x["score"], reverse=True
+            combined_filtered_results, key=lambda x: x["score"], reverse=True
         )
         # choose how many
-        philarchive_results = results[0:5]
+        combined_results = results[0:5]
         # pass the rest for adj recs
-        philarchive_filtered_results = results[5:]
+        combined_filtered_results = results[5:]
         # add rationales
-        philarchive_results = add_rationale(philarchive_results, biography)
-        print("got philarchive LLM articles")
+        combined_results = add_rationale(combined_results, biography)
+        print("got osf and phil LLM articles")
         print(
-            "passing remaining philarchive articles "
-            + str(len(philarchive_filtered_results))
+            "passing remaining osf and phil articles "
+            + str(len(combined_filtered_results))
         )
-        return (philarchive_results, philarchive_filtered_results)
+        return (combined_results, combined_filtered_results)
+
+    # if source == "philarchive_":
+    #     philarchive_filtered_results = [
+    #         item for item in results if isinstance(item, dict)
+    #     ]
+    #     philarchive_filtered_results = remove_duplicates(philarchive_filtered_results)
+    #     # sort by score
+    #     results = sorted(
+    #         philarchive_filtered_results, key=lambda x: x["score"], reverse=True
+    #     )
+    #     # choose how many
+    #     philarchive_results = results[0:5]
+    #     # pass the rest for adj recs
+    #     philarchive_filtered_results = results[5:]
+    #     # add rationales
+    #     philarchive_results = add_rationale(philarchive_results, biography)
+    #     print("got philarchive LLM articles")
+    #     print(
+    #         "passing remaining philarchive articles "
+    #         + str(len(philarchive_filtered_results))
+    #     )
+    #     return (philarchive_results, philarchive_filtered_results)
 
 
 def adjacent_recs(
     arxiv_filtered_results,
-    osf_filtered_results,
-    philarchive_filtered_results,
+    combined_filtered_results,
+    # philarchive_filtered_results,
     biography,
     adjacent_value,
 ):
@@ -315,9 +326,7 @@ def adjacent_recs(
         dissim_value_mapping = {1: 0.01, 2: 0.15, 3: 0.4, 4: 0.6}
         return dissim_value_mapping.get(user_preference, 0)
 
-    merged_results = (
-        arxiv_filtered_results + osf_filtered_results + philarchive_filtered_results
-    )
+    merged_results = arxiv_filtered_results + combined_filtered_results
     merged_results = [
         item for item in merged_results if isinstance(item, dict)
     ]  # now one list
@@ -361,45 +370,48 @@ def update_recommendations():
 
     print("getting osf_llm_recs")
     osf_articles = get_osf()
-    osf_llm_recs = llm_ranked_article(user_biography, osf_articles, "osf_")
-
-    print("getting osf_llm_recs")
     philarchive_articles = get_philarchive()
-    philarchive_llm_recs = llm_ranked_article(
-        user_biography, philarchive_articles, "philarchive_"
-    )
+    combined_articles = osf_articles + philarchive_articles
+    osf_phil_llm_recs = llm_ranked_article(user_biography, combined_articles, "osf_")
+
+    # print("getting osf_llm_recs")
+    # philarchive_articles = get_philarchive()
+    # philarchive_llm_recs = llm_ranked_article(
+    #     user_biography, philarchive_articles, "philarchive_"
+    # )
 
     arxiv_ranked, arxiv_filtered_results = cosine_ranked_articles(
         user_biography, arxiv_articles, "arxiv_", user_adjacent
     )
 
-    osf_ranked, osf_filtered_results = cosine_ranked_articles(
-        user_biography, osf_articles, "osf_", user_adjacent
+    combined_ranked, combined_filtered_results = cosine_ranked_articles(
+        user_biography, combined_articles, "combined_", user_adjacent
     )
 
-    philarchive_ranked, philarchive_filtered_results = cosine_ranked_articles(
-        user_biography,
-        philarchive_articles,
-        "philarchive_",
-        user_adjacent,
-    )
+    # TO DO -- combine philarchive results in with OSF to create just one OSF + Philarchive
+    # philarchive_ranked, philarchive_filtered_results = cosine_ranked_articles(
+    #     user_biography,
+    #     philarchive_articles,
+    #     "philarchive_",
+    #     user_adjacent,
+    # )
 
     adj_ranked = adjacent_recs(
         arxiv_filtered_results,
-        osf_filtered_results,
-        philarchive_filtered_results,
+        combined_filtered_results,
+        # philarchive_filtered_results,
         user_biography,
         user_adjacent,
     )
 
     recommendations = {
         "arxiv_llm_recs": arxiv_llm_recs,
-        "osf_llm_recs": osf_llm_recs,
-        "philarchive_llm_recs": philarchive_llm_recs,
+        "osf_phil_llm_recs": osf_phil_llm_recs,
+        # "philarchive_llm_recs": philarchive_llm_recs,
         "arxiv_cosine_ranked": arxiv_ranked,
-        "osf_cosine_ranked": osf_ranked,
-        "philarchive_cosine_ranked": philarchive_ranked,
-        "adj_ranked": adj_ranked,
+        "osf_phil_cosine_ranked": combined_ranked,
+        # "philarchive_cosine_ranked": philarchive_ranked,
+        "interdisciplinary_ranked": adj_ranked,
     }
 
     if output_directory:
@@ -413,15 +425,25 @@ def update_recommendations():
 
 def recommendation_main(
     your_short_biography,
-    adjacent_interests,
     huggingface_api_key,
-    openai_api_key,
-    output_path,
+    openai_api_key=None,
+    google_api_key=None,
+    interdisciplinary=None,
+    output_path=None,
 ):
     global user_biography
     user_biography = your_short_biography
+    global hf_api_key
+    hf_api_key = huggingface_api_key
+    global gpt_api_key
+    gpt_api_key = openai_api_key
+    global gemini_api_key
+    gemini_api_key = google_api_key
     global user_adjacent
-    user_adjacent = adjacent_interests
+    if interdisciplinary == None:
+        user_adjacent == "3"
+    else:
+        user_adjacent = interdisciplinary
     global output_directory
     output_directory = output_path
     update_recommendations()
