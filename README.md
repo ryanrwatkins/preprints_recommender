@@ -14,21 +14,27 @@ Clone the repository:
 
 ```bash
     pip install preprintscout
-
+or
     git clone https://github.com/yourusername/PreprintScout.git
 
 ```
-## Install the required dependencies:
-```bash
-cd PreprintScout
-pip install -r requirements.txt
-```
+
+## Dependencies
+- ##### arxiv>=2.1.3
+- ##### beautifulsoup4>=4.12.3
+- ##### langdetect>=1.0.9
+- ##### openai>=1.35.7
+- ##### pandas>=2.2.2
+- ##### pytz>=2024.1
+- ##### Requests>=2.32.3
+- ##### retry>=0.9.2
+- ##### scikit_learn>=1.4.2
+
 ## Run the application:
 ```bash
 from preprintscout import recommendation_main as pps
 
-pps(your_short_biography, adjacent_interests, huggingface_api_key, openai_api_key, output_path)
-```
+pps(your_short_biography, huggingface_api_key, openai_api_key = "xxxxxx", google_api_key = None, interdisciplinary = "3", output_path = "/path/to/output")```
 ## Configuration
 
 ### Required -- Write a short (150 to 200 words) biographical statement about your research, interests, academic background, and so forth.
@@ -38,41 +44,38 @@ pps(your_short_biography, adjacent_interests, huggingface_api_key, openai_api_ke
 your_short_biography = "I am a professor of engineering management. My research is in the application of artificial intelligence in managing engineering systems for electical vehicles... "
 ```
 
-### Required -- For recommendations include an API key from your HuggingFace account.
-### For security you can also store this as an environment variable. For example, "${HF_API_KEY}"
+#### Required -- For recommendations include an API key from your HuggingFace account. For security you can also store this as an environment variable. For example, "${HF_API_KEY}"
 ```bash
 huggingface_api_key = "xxxxxxxxxxxxxxxxxxx"
 ```
 
-### Required -- Either an OpenAI or Google Gemini API key
-- #### Optional -- For LLM based recommendations include an API key from your OpenAI account.
-#### For security you can also store this as an environment variable. For example, "${OPENAI_API_KEY}"
+#### Required -- Must have one, either an OpenAI or Google Gemini API key.
+- ##### Optional -- For LLM based recommendations include an API key from your OpenAI account. For security you can also store this as an environment variable. For example, "${OPENAI_API_KEY}"
 ```bash
 openai_api_key =  "xxxxxxxxxxxxxxxxxxx"
 ```
-- #### Optional -- For LLM based recommendations include an API key from your OpenAI account.
-### For security you can also store this as an environment variable. For example, "${GOOGLE_API_KEY}"
+- ##### Optional -- For LLM based recommendations include an API key from your OpenAI account. For security you can also store this as an environment variable. For example, "${GOOGLE_API_KEY}"
 ```bash
 google_api_key =  "xxxxxxxxxxxxxxxxxxx"
 ```
 
-### Optional --  Using 1 to 4, indicate your interest in research outside of your home discipline
-- #### 1 = connected disciplines
-- #### 2 = adjacent disciplines (default)
-- #### 3 = tangential disciplines
-- #### 4 = peripheral disciplines
+#### Optional --  Using 1 to 4, indicate your interest in research outside of your home discipline
+- ##### 1 = connected disciplines
+- ##### 2 = adjacent disciplines (default)
+- ##### 3 = tangential disciplines
+- ##### 4 = peripheral disciplines
 
 ```bash
 interdisciplinary = "3"
 ```
 
-### Optional -- You can save JSON copies of recommendations include the path.
+#### Optional -- You can save JSON copies of recommendations include the path.
 ```bash
 output_path = "/path/to/output"
 ```
-#### This will create the directory if it doesn't exist yet. Be sure that has a the leading slash. For instance, on a Mac you could have ""/Users/your_name/recommendations/preprints"
+##### This will create the directory if it doesn't exist yet. Be sure that has a the leading slash. For instance, on a Mac you could have ""/Users/your_name/recommendations/preprints"
 
-### Here is a complete example (note that opetional arguments have to be labeled in the function):
+#### Here is a complete example (note that opetional arguments have to be labeled in the function):
 ```bash
 from preprintscout import recommendation_main as pps
 
@@ -82,15 +85,15 @@ huggingface_api_key = "xxxxxxxxxxxxxxxxxxx"
 pps(your_short_biography, huggingface_api_key, openai_api_key = "xxxxxx", google_api_key = None, interdisciplinary = "3", output_path = "/path/to/output")
 ```
 ## Output
-### The return is a JSON file grouped by type of recommendation, with 5 recommendations for each category. Here an example with one recommendation for each category and reduced descriptions.
+#### The return is a JSON file grouped by type of recommendation, with 5 recommendations for each category. Here an example with one recommendation for each category and reduced descriptions.
 
-- #### arxiv_llm_recs = recommendations of recent preprints from arxiv.org determined by your selected LLM and based on your profile description.
-- #### osf_phil_llm_recs = recommendations of recent preprints from OSF.io and PhilArchive.org determined by your selected LLM and based on your profile description.
-- #### arxiv_cosine_ranked = recommendations of recent preprints from arxiv.org determined by using cosine-similary of the article abstract and your profile description.
-- #### #### osf_phil_cosine_ranked = recommendations of recent preprints from OSF.io and PhilArchive.org determined by using cosine-similary of the article abstract and your profile description.
-- #### interdisciplinary_ranked = a reranking of all recent prepreints (arxiv, OSF, and PhilArchive) based on the semanitic distance from your home discipline and your interdiscplinary interest setting.
-- #### score = cosine-similarity of the article abstract and your profile description.
-- #### dissim_value = Semanitic distance between the article abstract and your home discipline.
+- ##### arxiv_llm_recs = recommendations of recent preprints from arxiv.org determined by your selected LLM and based on your profile description.
+- ##### osf_phil_llm_recs = recommendations of recent preprints from OSF.io and PhilArchive.org determined by your selected LLM and based on your profile description.
+- ##### arxiv_cosine_ranked = recommendations of recent preprints from arxiv.org determined by using cosine-similary of the article abstract and your profile description.
+- ##### osf_phil_cosine_ranked = recommendations of recent preprints from OSF.io and PhilArchive.org determined by using cosine-similary of the article abstract and your profile description.
+- ##### interdisciplinary_ranked = a reranking of all recent prepreints (arxiv, OSF, and PhilArchive) based on the semanitic distance from your home discipline and your interdiscplinary interest setting.
+- ##### score = cosine-similarity of the article abstract and your profile description.
+- ##### dissim_value = Semanitic distance between the article abstract and your home discipline.
 
 
 ```bash
