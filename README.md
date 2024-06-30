@@ -11,19 +11,21 @@ PreprintScout is a tool designed to help researchers and educators discover and 
 ## Installation
 
 Clone the repository:
+
+```bash
    git clone https://github.com/yourusername/PreprintScout.git
    cd PreprintScout
-
+```
 ## Install the required dependencies:
-
+```bash
 pip install -r requirements.txt
-
+```
 ## Run the application:
-
+```bash
 from preprintscout import recommendation_main as pps
 
 pps(your_short_biography, adjacent_interests, huggingface_api_key, openai_api_key, output_path)
-
+```
 ## Configuration
 You can configure various settings in the config.yaml file:
 

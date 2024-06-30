@@ -1,3 +1,21 @@
+[project]
+name = "PreprintScout"
+version = "0.1"
+
+
+
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+dependencies = [
+    "requests >=2.6",
+
+]
+
+
 [tool.pytest.ini_options]
 pythonpath = [
   ".", "src", "preprint_scout", ".."
