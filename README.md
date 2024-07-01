@@ -1,12 +1,13 @@
 # PreprintScout
 
-PreprintScout is a tool designed to help researchers and educators discover and manage preprints in their fields. It provides a useful tool for exploring recent preprints, tracking updates, and curating a personalized library.
+PreprintScout is a tool designed to help researchers (including student researchers) discover preprints that can inform current and future research endeavors. It provides a useful tool for exploring recent preprints, tracking updates, and curating a personalized library.
 
 ## Features
 
-- **Search and Discovery**: Searches for preprints using various filters.
-- **Notifications**: Get updates on new preprints in specified research areas.
-- **Collaboration**: Share curated lists of preprints with colleagues.
+- **Recommender**: Get recent preprints recommended on your personalized background and interests.
+- **LLM and NLP**: Use your choice of LLMs (e.g., GPT, Gemini), as well as NLP methods (i.e., costine-similarity of embeddings), to get the most useful recommendations.
+- **Interdiscipinary**: Explore research from fields *close* and *far* from your home dischipline based on your preferences.
+
 
 ## Installation
 
