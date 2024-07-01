@@ -11,11 +11,8 @@ from src.preprint_scout import arxiv_articles as arxiv_articles
 from src.preprint_scout import osf_articles as osf_articles
 from src.preprint_scout import philarchive_articles as philarchive_articles
 
-from src.preprint_scout import api_keys
-
-
+# from src.preprint_scout import api_keys
 # from src.preprint_scout.user_profile import UserProfile, user_profile
-
 
 """ def test_fun_function():
     assert recommender_main.fun_function(3) == 13 """
