@@ -177,7 +177,7 @@ pps(your_short_biography, huggingface_api_key, openai_api_key="xxxxxx", google_a
 - Easily add a daily email of recommended preprint using GitHub Actions (link coming soon)
 
 ## Known Issues
-Check (https://github.com/ryanrwatkins/preprints_recommender)[Github]
+Check [Github](https://github.com/ryanrwatkins/preprints_recommender).
 
 ## Contributing
 Contributions are welcome! Please read our contributing guidelines for more details (coming soon).
@@ -186,4 +186,4 @@ Contributions are welcome! Please read our contributing guidelines for more deta
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Contact
-For questions or feedback, please contact me on (https://github.com/ryanrwatkins/preprints_recommender)[Github].
+For questions or feedback, please contact me on [Github](https://github.com/ryanrwatkins/preprints_recommender).
