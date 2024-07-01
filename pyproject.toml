@@ -1,6 +1,6 @@
 [project]
 name = "PreprintScout"
-version = "0.1"
+version = "0.1.1"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Ryan Watkins" }]

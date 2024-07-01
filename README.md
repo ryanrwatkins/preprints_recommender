@@ -34,7 +34,8 @@ or
 ```bash
 from preprintscout import recommendation_main as pps
 
-pps(your_short_biography, huggingface_api_key, openai_api_key = "xxxxxx", google_api_key = None, interdisciplinary = "3", output_path = "/path/to/output")```
+pps(your_short_biography, huggingface_api_key, openai_api_key="xxxxxx", google_api_key=None, interdisciplinary="3", output_path="/path/to/output")
+```
 ## Configuration
 
 ### Required -- Write a short (150 to 200 words) biographical statement about your research, interests, academic background, and so forth.
@@ -82,7 +83,7 @@ from preprintscout import recommendation_main as pps
 your_short_biography = "I am a professor of engineering management. My research is in the application of artificial intelligence in managing engineering systems for electical vehicles... "
 huggingface_api_key = "xxxxxxxxxxxxxxxxxxx"
 
-pps(your_short_biography, huggingface_api_key, openai_api_key = "xxxxxx", google_api_key = None, interdisciplinary = "3", output_path = "/path/to/output")
+pps(your_short_biography, huggingface_api_key, openai_api_key="xxxxxx", google_api_key=None, interdisciplinary="3", output_path="/path/to/output")
 ```
 ## Output
 #### The return is a JSON file grouped by type of recommendation, with 5 recommendations for each category. Here an example with one recommendation for each category and reduced descriptions.
