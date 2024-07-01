@@ -3,5 +3,3 @@
 
 # ignore ALL files in ANY directory named temp
 .venv/
-api.py
-api_keys.py

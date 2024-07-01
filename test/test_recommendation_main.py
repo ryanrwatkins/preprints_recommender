@@ -63,8 +63,8 @@ def test_save_recommendations_to_json():
     recommender_main.update_recommendations() """
 
 biography = "I am a engineer who studies artificial intelligence in electric vehicles."
-huggingface_api_key = api_keys.hf_api_key
-google_api_key = api_keys.palm_api_key
+huggingface_api_key = "xxxx"  # api_keys.hf_api_key
+google_api_key = "xxxx"  # api_keys.palm_api_key
 
 
 def test_get_osf_rec():
