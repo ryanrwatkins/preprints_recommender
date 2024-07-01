@@ -20,15 +20,15 @@ or
 ```
 
 ## Dependencies
-- ##### arxiv>=2.1.3
-- ##### beautifulsoup4>=4.12.3
-- ##### langdetect>=1.0.9
-- ##### openai>=1.35.7
-- ##### pandas>=2.2.2
-- ##### pytz>=2024.1
-- ##### Requests>=2.32.3
-- ##### retry>=0.9.2
-- ##### scikit_learn>=1.4.2
+##### arxiv>=2.1.3
+##### beautifulsoup4>=4.12.3
+##### langdetect>=1.0.9
+##### openai>=1.35.7
+##### pandas>=2.2.2
+##### pytz>=2024.1
+##### Requests>=2.32.3
+##### retry>=0.9.2
+##### scikit_learn>=1.4.2
 
 ## Run the application:
 ```bash
@@ -176,7 +176,7 @@ pps(your_short_biography, huggingface_api_key, openai_api_key = "xxxxxx", google
 - Easily add a daily email of recommended preprint using GitHub Actions (link coming soon)
 
 ## Known Issues
-Check Github
+Check (https://github.com/ryanrwatkins/preprints_recommender)[Github]
 
 ## Contributing
 Contributions are welcome! Please read our contributing guidelines for more details (coming soon).
@@ -185,4 +185,4 @@ Contributions are welcome! Please read our contributing guidelines for more deta
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Contact
-For questions or feedback, please contact me on Github.
+For questions or feedback, please contact me on (https://github.com/ryanrwatkins/preprints_recommender)[Github].

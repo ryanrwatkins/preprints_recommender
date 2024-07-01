@@ -10,14 +10,10 @@ import pandas as pd
 
 def get_arxiv(research_interests):
     directory_path = os.path.dirname(os.path.abspath(__file__))
-    """ taxonomy = working_directory + "/src/arxiv_taxonomy.csv" """
-    """ taxonomy = working_directory + "/arxiv_taxonomy.csv" """
     taxonomy = os.path.join(directory_path, "resources/arxiv_taxonomy.csv")
 
     arxiv_tax_df = pd.read_csv(taxonomy)
 
-    """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
-    """ schema = working_directory + "/schema_mapping_cleaned.csv" """
     schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
     utc = pytz.UTC
     now = utc.localize(datetime.now())

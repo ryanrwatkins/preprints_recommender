@@ -1,15 +1,9 @@
 [project]
 name = "PreprintScout"
 version = "0.1"
-
-
-
-
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Ryan Watkins" }]
 dependencies = [
 "arxiv>=2.1.3",
 "beautifulsoup4>=4.12.3",
@@ -22,8 +16,22 @@ dependencies = [
 "scikit_learn>=1.4.2",
 ]
 
+[project.urls]
+Homepage = "https://github.com/ryanrwatkins/preprints_recommender"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 pythonpath = [
   ".", "src", "preprint_scout", ".."
 ]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest"

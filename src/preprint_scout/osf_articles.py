@@ -19,8 +19,6 @@ def get_osf():
     today = date.today()
     yesterday = str(today - timedelta(days=1))
 
-    """ schema = working_directory + "/src/schema_mapping_cleaned.csv"  """
-    """ schema = working_directory + "/schema_mapping_cleaned.csv" """
     schema = os.path.join(directory_path, "resources/schema_mapping_cleaned.csv")
     mapping_df = pd.read_csv(schema)
 

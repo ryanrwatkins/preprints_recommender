@@ -93,7 +93,7 @@ def select_discipline(biography):
 
 
 def remove_duplicates(data):
-    """remove duplicates for ranking function below just to be safe"""
+    """Removes duplicates for ranking function below just to be safe"""
     seen = set()
     undup_data = []
 
@@ -129,7 +129,7 @@ def add_rationale(recs_list, biography):
     return recs_list
 
 
-def llm_ranked_article(biography, articles, source):
+def llm_ranked_article(biography, articles):
     """This uses the LLM to determine which articles from the list should be recommended for the user biography"""
     global llm_results
     print("getting LLM ranking of articles")
@@ -203,7 +203,7 @@ def llm_ranked_article(biography, articles, source):
     return llm_results
 
 
-def cosine_ranked_articles(biography, articles, source, adjacent_value):
+def cosine_ranked_articles(biography, articles, source):
     """For creating ranked recs using cosine-similarity by sentence-transformers on huggingface"""
     global results
     global arxiv_filtered_results
@@ -287,33 +287,10 @@ def cosine_ranked_articles(biography, articles, source, adjacent_value):
         )
         return (combined_results, combined_filtered_results)
 
-    # if source == "philarchive_":
-    #     philarchive_filtered_results = [
-    #         item for item in results if isinstance(item, dict)
-    #     ]
-    #     philarchive_filtered_results = remove_duplicates(philarchive_filtered_results)
-    #     # sort by score
-    #     results = sorted(
-    #         philarchive_filtered_results, key=lambda x: x["score"], reverse=True
-    #     )
-    #     # choose how many
-    #     philarchive_results = results[0:5]
-    #     # pass the rest for adj recs
-    #     philarchive_filtered_results = results[5:]
-    #     # add rationales
-    #     philarchive_results = add_rationale(philarchive_results, biography)
-    #     print("got philarchive LLM articles")
-    #     print(
-    #         "passing remaining philarchive articles "
-    #         + str(len(philarchive_filtered_results))
-    #     )
-    #     return (philarchive_results, philarchive_filtered_results)
-
 
 def adjacent_recs(
     arxiv_filtered_results,
     combined_filtered_results,
-    # philarchive_filtered_results,
     biography,
     adjacent_value,
 ):
@@ -374,12 +351,6 @@ def update_recommendations():
     combined_articles = osf_articles + philarchive_articles
     osf_phil_llm_recs = llm_ranked_article(user_biography, combined_articles, "osf_")
 
-    # print("getting osf_llm_recs")
-    # philarchive_articles = get_philarchive()
-    # philarchive_llm_recs = llm_ranked_article(
-    #     user_biography, philarchive_articles, "philarchive_"
-    # )
-
     arxiv_ranked, arxiv_filtered_results = cosine_ranked_articles(
         user_biography, arxiv_articles, "arxiv_", user_adjacent
     )
@@ -387,14 +358,6 @@ def update_recommendations():
     combined_ranked, combined_filtered_results = cosine_ranked_articles(
         user_biography, combined_articles, "combined_", user_adjacent
     )
-
-    # TO DO -- combine philarchive results in with OSF to create just one OSF + Philarchive
-    # philarchive_ranked, philarchive_filtered_results = cosine_ranked_articles(
-    #     user_biography,
-    #     philarchive_articles,
-    #     "philarchive_",
-    #     user_adjacent,
-    # )
 
     adj_ranked = adjacent_recs(
         arxiv_filtered_results,
@@ -407,10 +370,8 @@ def update_recommendations():
     recommendations = {
         "arxiv_llm_recs": arxiv_llm_recs,
         "osf_phil_llm_recs": osf_phil_llm_recs,
-        # "philarchive_llm_recs": philarchive_llm_recs,
         "arxiv_cosine_ranked": arxiv_ranked,
         "osf_phil_cosine_ranked": combined_ranked,
-        # "philarchive_cosine_ranked": philarchive_ranked,
         "interdisciplinary_ranked": adj_ranked,
     }
 
@@ -420,7 +381,6 @@ def update_recommendations():
         print("No output directory provided for saving json file")
     print("Recommendations successfully created!")
     return recommendations
-    # os._exit(0)
 
 
 def recommendation_main(
