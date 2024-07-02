@@ -11,8 +11,6 @@ PreprintScout is a tool designed to help researchers (including student research
 
 ## Installation
 
-Clone the repository:
-
 ```bash
     pip install preprintscout
 or
