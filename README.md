@@ -1,6 +1,6 @@
 # PreprintScout
 
-PreprintScout is a tool designed to help researchers (including student researchers) discover preprints that can inform current and future research endeavors. It provides a useful tool for exploring recent preprints, tracking updates, and curating a personalized library.
+PreprintScout is a tool designed to help researchers (including student researchers) discover preprints that can inform current and future research endeavors. It provides a useful tool for staying up to date on recent preprints, tracking current trends in your field, and exploring trends other disciplines. Preprintscout uses LLMs and NLP methods to create personalized recommendations.
 
 ## Features
 
