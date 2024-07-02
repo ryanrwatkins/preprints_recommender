@@ -1,0 +1,12 @@
+2024-07-01 21:33:10,689 - ERROR - Error occurred: llm_ranked_article() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/rwatkins_1/Python projects/PreprintScout/tester.py", line 13, in <module>
+    tester()
+  File "/Users/rwatkins_1/Python projects/PreprintScout/tester.py", line 9, in tester
+    pps(biography, huggingface_api_key, openai_api_key=None, google_api_key=google_api_key, interdisciplinary="3", output_path=output_path)
+  File "/Users/rwatkins_1/anaconda3/envs/tester_venv/lib/python3.11/site-packages/preprint_scout/recommender_main.py", line 409, in recommendation_main
+    update_recommendations()
+  File "/Users/rwatkins_1/anaconda3/envs/tester_venv/lib/python3.11/site-packages/preprint_scout/recommender_main.py", line 346, in update_recommendations
+    arxiv_llm_recs = llm_ranked_article(user_biography, arxiv_articles, "arxiv_")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: llm_ranked_article() takes 2 positional arguments but 3 were given
