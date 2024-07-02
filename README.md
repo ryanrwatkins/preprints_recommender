@@ -23,6 +23,7 @@ or
 ## Dependencies
 ##### arxiv>=2.1.3
 ##### beautifulsoup4>=4.12.3
+##### google-generativeai>=0.7.0
 ##### langdetect>=1.0.9
 ##### openai>=1.35.7
 ##### pandas>=2.2.2
@@ -33,9 +34,9 @@ or
 
 ## Run the application:
 ```bash
-from preprintscout import recommendation_main as pps
+import preprintscout
 
-pps(your_short_biography, huggingface_api_key, openai_api_key="xxxxxx", google_api_key=None, interdisciplinary="3", output_path="/path/to/output")
+preprintscout(your_short_biography, huggingface_api_key, openai_api_key="xxxxxx", google_api_key=None, interdisciplinary="3", output_path="/path/to/output")
 ```
 ## Configuration
 
@@ -79,7 +80,7 @@ output_path = "/path/to/output"
 
 #### Here is a complete example (note that opetional arguments have to be labeled in the function):
 ```bash
-from preprintscout import recommendation_main as pps
+import preprintscout as pps
 
 your_short_biography = "I am a professor of engineering management. My research is in the application of artificial intelligence in managing engineering systems for electical vehicles... "
 huggingface_api_key = "xxxxxxxxxxxxxxxxxxx"
@@ -188,3 +189,21 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Contact
 For questions or feedback, please contact me on [Github](https://github.com/ryanrwatkins/preprints_recommender).
+
+## Troubleshooting
+
+#### If you encounter issues importing 'preprintscout' after installing the package, follow these steps to find the installation path and update the 'PYTHONPATH'.
+
+#### Step 1: Verify and find the installation path:
+##### Use the '>>> pip show preprintscout' command and note the location. For example, if the location is /Users/yourusername/.local/lib/python3.9/site-packages, you will use this path.
+
+```bash
+pip show preprintscout
+```
+
+#### Step 2: Update PYTHONPATH:
+##### Temporarily update PYTHONPATH in your terminal session:
+
+```bash
+export PYTHONPATH=$PYTHONPATH:/Users/yourusername/.local/lib/python3.9/site-packages
+```

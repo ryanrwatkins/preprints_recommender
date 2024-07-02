@@ -343,26 +343,25 @@ def update_recommendations():
 
     print("getting arxiv_llm_recs")
     arxiv_articles = get_arxiv(research_interests)
-    arxiv_llm_recs = llm_ranked_article(user_biography, arxiv_articles, "arxiv_")
+    arxiv_llm_recs = llm_ranked_article(user_biography, arxiv_articles)
 
     print("getting osf_llm_recs")
     osf_articles = get_osf()
     philarchive_articles = get_philarchive()
     combined_articles = osf_articles + philarchive_articles
-    osf_phil_llm_recs = llm_ranked_article(user_biography, combined_articles, "osf_")
+    osf_phil_llm_recs = llm_ranked_article(user_biography, combined_articles)
 
     arxiv_ranked, arxiv_filtered_results = cosine_ranked_articles(
-        user_biography, arxiv_articles, "arxiv_", user_adjacent
+        user_biography, arxiv_articles, "arxiv_"
     )
 
     combined_ranked, combined_filtered_results = cosine_ranked_articles(
-        user_biography, combined_articles, "combined_", user_adjacent
+        user_biography, combined_articles, "combined_"
     )
 
     adj_ranked = adjacent_recs(
         arxiv_filtered_results,
         combined_filtered_results,
-        # philarchive_filtered_results,
         user_biography,
         user_adjacent,
     )
