@@ -1,12 +1,12 @@
 # PreprintScout
 
-PreprintScout is a tool designed to help researchers (including student researchers) discover preprints that can inform current and future research endeavors. It provides a useful tool for staying up to date on recent preprints, tracking current trends in your field, and exploring trends other disciplines. Preprintscout uses LLMs and NLP methods to create personalized recommendations.
+PreprintScout is a tool designed to help researchers, including student researchers, discover preprints that can inform current and future research endeavors. It provides an effective means to stay updated on recent preprints, track current trends in your field, and explore trends in other disciplines. PreprintScout uses LLMs and NLP methods to create personalized recommendations.
 
 ## Features
 
-- **Recommender**: Get recent preprints recommended on your personalized background and interests.
-- **LLM and NLP**: Use your choice of LLMs (e.g., GPT, Gemini), as well as NLP methods (i.e., costine-similarity of embeddings), to get the most useful recommendations.
-- **Interdiscipinary**: Explore research from fields *close* and *far* from your home dischipline based on your preferences.
+- **Recommendations**: Receive tailored recommendations for recent academic preprints based on your unique background and interests.
+- **LLMs and NLP**: Leverage your preferred LLMs (e.g., OpenAI GPT, Google Gemini) and NLP methods (e.g., cosine similarity) to obtain the most relevant recommendations
+- **Interdiscipinary**: Explore research both *near* and *distance* from your home discipline based on your preferences; including preprints from [arxiv](https://arxiv.org), [OSF](https://osf.io/preprints) (which aggregates 25+ preprint services), and [PhilArchive](https://philarchive.org/).
 
 
 ## Installation
